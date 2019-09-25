@@ -4,22 +4,23 @@ LXSPI
 Register Listing for LXSPI
 --------------------------
 
-+------------------+----------------+
-| Register         | Address        |
-+==================+================+
-| LXSPI_BITBANG    | ``0xe0007800`` |
-+------------------+----------------+
-| LXSPI_MISO       | ``0xe0007804`` |
-+------------------+----------------+
-| LXSPI_BITBANG_EN | ``0xe0007808`` |
-+------------------+----------------+
++--------------------------------------------+--------------------------------------+
+| Register                                   | Address                              |
++============================================+======================================+
+| :ref:`LXSPI_BITBANG <LXSPI_BITBANG>`       | :ref:`0xe0007800 <LXSPI_BITBANG>`    |
++--------------------------------------------+--------------------------------------+
+| :ref:`LXSPI_MISO <LXSPI_MISO>`             | :ref:`0xe0007804 <LXSPI_MISO>`       |
++--------------------------------------------+--------------------------------------+
+| :ref:`LXSPI_BITBANG_EN <LXSPI_BITBANG_EN>` | :ref:`0xe0007808 <LXSPI_BITBANG_EN>` |
++--------------------------------------------+--------------------------------------+
 
 LXSPI_BITBANG
 ^^^^^^^^^^^^^
 
-**Address: 0xe0007800 + 0x0 = 0xe0007800**
+`Address: 0xe0007800 + 0x0 = 0xe0007800`
 
-    Bitbang controls for SPI output.  Only standard 1x SPI is supported,                             meaning the IO2 and IO3 lines will be hardwired to `1` during bitbang mode.
+    Bitbang controls for SPI output.  Only standard 1x SPI is supported,
+    meaning the IO2 and IO3 lines will be hardwired to `1` during bitbang mode.
 
     .. wavedrom::
         :caption: LXSPI_BITBANG
@@ -58,7 +59,7 @@ LXSPI_BITBANG
 LXSPI_MISO
 ^^^^^^^^^^
 
-**Address: 0xe0007800 + 0x4 = 0xe0007804**
+`Address: 0xe0007800 + 0x4 = 0xe0007804`
 
     Incoming value of MISO signal.
 
@@ -76,7 +77,7 @@ LXSPI_MISO
 LXSPI_BITBANG_EN
 ^^^^^^^^^^^^^^^^
 
-**Address: 0xe0007800 + 0x8 = 0xe0007808**
+`Address: 0xe0007800 + 0x8 = 0xe0007808`
 
     Write a `1` here to disable memory-mapped mode and enable bitbang mode.
 

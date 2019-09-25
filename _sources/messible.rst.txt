@@ -26,22 +26,23 @@ advances the ``READ`` pointer.
 Register Listing for MESSIBLE
 -----------------------------
 
-+-----------------+----------------+
-| Register        | Address        |
-+=================+================+
-| MESSIBLE_IN     | ``0xe0008000`` |
-+-----------------+----------------+
-| MESSIBLE_OUT    | ``0xe0008004`` |
-+-----------------+----------------+
-| MESSIBLE_STATUS | ``0xe0008008`` |
-+-----------------+----------------+
++------------------------------------------+-------------------------------------+
+| Register                                 | Address                             |
++==========================================+=====================================+
+| :ref:`MESSIBLE_IN <MESSIBLE_IN>`         | :ref:`0xe0008000 <MESSIBLE_IN>`     |
++------------------------------------------+-------------------------------------+
+| :ref:`MESSIBLE_OUT <MESSIBLE_OUT>`       | :ref:`0xe0008004 <MESSIBLE_OUT>`    |
++------------------------------------------+-------------------------------------+
+| :ref:`MESSIBLE_STATUS <MESSIBLE_STATUS>` | :ref:`0xe0008008 <MESSIBLE_STATUS>` |
++------------------------------------------+-------------------------------------+
 
 MESSIBLE_IN
 ^^^^^^^^^^^
 
-**Address: 0xe0008000 + 0x0 = 0xe0008000**
+`Address: 0xe0008000 + 0x0 = 0xe0008000`
 
-    Write half of the FIFO to send data out the Messible.         Writing to this register advances the write pointer automatically.
+    Write half of the FIFO to send data out the Messible.         Writing to this
+    register advances the write pointer automatically.
 
     .. wavedrom::
         :caption: MESSIBLE_IN
@@ -56,9 +57,10 @@ MESSIBLE_IN
 MESSIBLE_OUT
 ^^^^^^^^^^^^
 
-**Address: 0xe0008000 + 0x4 = 0xe0008004**
+`Address: 0xe0008000 + 0x4 = 0xe0008004`
 
-    Read half of the FIFO to receive data on the Messible.         Reading from this register advances the read pointer automatically.
+    Read half of the FIFO to receive data on the Messible.         Reading from this
+    register advances the read pointer automatically.
 
     .. wavedrom::
         :caption: MESSIBLE_OUT
@@ -73,7 +75,7 @@ MESSIBLE_OUT
 MESSIBLE_STATUS
 ^^^^^^^^^^^^^^^
 
-**Address: 0xe0008000 + 0x8 = 0xe0008008**
+`Address: 0xe0008000 + 0x8 = 0xe0008008`
 
 
     .. wavedrom::

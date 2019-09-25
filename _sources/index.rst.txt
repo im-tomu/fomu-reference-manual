@@ -5,6 +5,7 @@ Documentation for LiteX SoC Project
 .. toctree::
     :hidden:
 
+    interrupts
     ctrl
     lxspi
     messible
@@ -14,6 +15,11 @@ Documentation for LiteX SoC Project
     touch
     usb
     version
+
+Modules
+=======
+
+* :doc:`INTERRUPTS <interrupts>`
 
 Register Groups
 ===============

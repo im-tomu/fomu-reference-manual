@@ -37,50 +37,52 @@ CPU can also do software polling with `update_value` and `value` to know the ela
 Register Listing for TIMER0
 ---------------------------
 
-+---------------------+----------------+
-| Register            | Address        |
-+=====================+================+
-| TIMER0_LOAD3        | ``0xe0002800`` |
-+---------------------+----------------+
-| TIMER0_LOAD2        | ``0xe0002804`` |
-+---------------------+----------------+
-| TIMER0_LOAD1        | ``0xe0002808`` |
-+---------------------+----------------+
-| TIMER0_LOAD0        | ``0xe000280c`` |
-+---------------------+----------------+
-| TIMER0_RELOAD3      | ``0xe0002810`` |
-+---------------------+----------------+
-| TIMER0_RELOAD2      | ``0xe0002814`` |
-+---------------------+----------------+
-| TIMER0_RELOAD1      | ``0xe0002818`` |
-+---------------------+----------------+
-| TIMER0_RELOAD0      | ``0xe000281c`` |
-+---------------------+----------------+
-| TIMER0_EN           | ``0xe0002820`` |
-+---------------------+----------------+
-| TIMER0_UPDATE_VALUE | ``0xe0002824`` |
-+---------------------+----------------+
-| TIMER0_VALUE3       | ``0xe0002828`` |
-+---------------------+----------------+
-| TIMER0_VALUE2       | ``0xe000282c`` |
-+---------------------+----------------+
-| TIMER0_VALUE1       | ``0xe0002830`` |
-+---------------------+----------------+
-| TIMER0_VALUE0       | ``0xe0002834`` |
-+---------------------+----------------+
-| TIMER0_EV_STATUS    | ``0xe0002838`` |
-+---------------------+----------------+
-| TIMER0_EV_PENDING   | ``0xe000283c`` |
-+---------------------+----------------+
-| TIMER0_EV_ENABLE    | ``0xe0002840`` |
-+---------------------+----------------+
++--------------------------------------------------+-----------------------------------------+
+| Register                                         | Address                                 |
++==================================================+=========================================+
+| :ref:`TIMER0_LOAD3 <TIMER0_LOAD3>`               | :ref:`0xe0002800 <TIMER0_LOAD3>`        |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_LOAD2 <TIMER0_LOAD2>`               | :ref:`0xe0002804 <TIMER0_LOAD2>`        |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_LOAD1 <TIMER0_LOAD1>`               | :ref:`0xe0002808 <TIMER0_LOAD1>`        |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_LOAD0 <TIMER0_LOAD0>`               | :ref:`0xe000280c <TIMER0_LOAD0>`        |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_RELOAD3 <TIMER0_RELOAD3>`           | :ref:`0xe0002810 <TIMER0_RELOAD3>`      |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_RELOAD2 <TIMER0_RELOAD2>`           | :ref:`0xe0002814 <TIMER0_RELOAD2>`      |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_RELOAD1 <TIMER0_RELOAD1>`           | :ref:`0xe0002818 <TIMER0_RELOAD1>`      |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_RELOAD0 <TIMER0_RELOAD0>`           | :ref:`0xe000281c <TIMER0_RELOAD0>`      |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_EN <TIMER0_EN>`                     | :ref:`0xe0002820 <TIMER0_EN>`           |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_UPDATE_VALUE <TIMER0_UPDATE_VALUE>` | :ref:`0xe0002824 <TIMER0_UPDATE_VALUE>` |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_VALUE3 <TIMER0_VALUE3>`             | :ref:`0xe0002828 <TIMER0_VALUE3>`       |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_VALUE2 <TIMER0_VALUE2>`             | :ref:`0xe000282c <TIMER0_VALUE2>`       |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_VALUE1 <TIMER0_VALUE1>`             | :ref:`0xe0002830 <TIMER0_VALUE1>`       |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_VALUE0 <TIMER0_VALUE0>`             | :ref:`0xe0002834 <TIMER0_VALUE0>`       |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_EV_STATUS <TIMER0_EV_STATUS>`       | :ref:`0xe0002838 <TIMER0_EV_STATUS>`    |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_EV_PENDING <TIMER0_EV_PENDING>`     | :ref:`0xe000283c <TIMER0_EV_PENDING>`   |
++--------------------------------------------------+-----------------------------------------+
+| :ref:`TIMER0_EV_ENABLE <TIMER0_EV_ENABLE>`       | :ref:`0xe0002840 <TIMER0_EV_ENABLE>`    |
++--------------------------------------------------+-----------------------------------------+
 
 TIMER0_LOAD3
 ^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x0 = 0xe0002800**
+`Address: 0xe0002800 + 0x0 = 0xe0002800`
 
-    Bits 24-31 of `TIMER0_LOAD`. Load value when Timer is (re-)enabled.In One-Shot mode, the value written to this register specify the Timer's duration in             clock cycles.
+    Bits 24-31 of `TIMER0_LOAD`. Load value when Timer is (re-)enabled.In One-Shot
+    mode, the value written to this register specify the Timer's duration in
+    clock cycles.
 
     .. wavedrom::
         :caption: TIMER0_LOAD3
@@ -95,7 +97,7 @@ TIMER0_LOAD3
 TIMER0_LOAD2
 ^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x4 = 0xe0002804**
+`Address: 0xe0002800 + 0x4 = 0xe0002804`
 
     Bits 16-23 of `TIMER0_LOAD`.
 
@@ -112,7 +114,7 @@ TIMER0_LOAD2
 TIMER0_LOAD1
 ^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x8 = 0xe0002808**
+`Address: 0xe0002800 + 0x8 = 0xe0002808`
 
     Bits 8-15 of `TIMER0_LOAD`.
 
@@ -129,7 +131,7 @@ TIMER0_LOAD1
 TIMER0_LOAD0
 ^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0xc = 0xe000280c**
+`Address: 0xe0002800 + 0xc = 0xe000280c`
 
     Bits 0-7 of `TIMER0_LOAD`.
 
@@ -146,9 +148,11 @@ TIMER0_LOAD0
 TIMER0_RELOAD3
 ^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x10 = 0xe0002810**
+`Address: 0xe0002800 + 0x10 = 0xe0002810`
 
-    Bits 24-31 of `TIMER0_RELOAD`. Reload value when Timer reaches 0.In Periodic mode, the value written to this register specify the Timer's period in             clock cycles.
+    Bits 24-31 of `TIMER0_RELOAD`. Reload value when Timer reaches 0.In Periodic
+    mode, the value written to this register specify the Timer's period in
+    clock cycles.
 
     .. wavedrom::
         :caption: TIMER0_RELOAD3
@@ -163,7 +167,7 @@ TIMER0_RELOAD3
 TIMER0_RELOAD2
 ^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x14 = 0xe0002814**
+`Address: 0xe0002800 + 0x14 = 0xe0002814`
 
     Bits 16-23 of `TIMER0_RELOAD`.
 
@@ -180,7 +184,7 @@ TIMER0_RELOAD2
 TIMER0_RELOAD1
 ^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x18 = 0xe0002818**
+`Address: 0xe0002800 + 0x18 = 0xe0002818`
 
     Bits 8-15 of `TIMER0_RELOAD`.
 
@@ -197,7 +201,7 @@ TIMER0_RELOAD1
 TIMER0_RELOAD0
 ^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x1c = 0xe000281c**
+`Address: 0xe0002800 + 0x1c = 0xe000281c`
 
     Bits 0-7 of `TIMER0_RELOAD`.
 
@@ -214,9 +218,10 @@ TIMER0_RELOAD0
 TIMER0_EN
 ^^^^^^^^^
 
-**Address: 0xe0002800 + 0x20 = 0xe0002820**
+`Address: 0xe0002800 + 0x20 = 0xe0002820`
 
-    Enable of the Timer.Set if to 1 to enable/start the Timer and 0 to disable the Timer
+    Enable of the Timer.Set if to 1 to enable/start the Timer and 0 to disable the
+    Timer
 
     .. wavedrom::
         :caption: TIMER0_EN
@@ -232,9 +237,10 @@ TIMER0_EN
 TIMER0_UPDATE_VALUE
 ^^^^^^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x24 = 0xe0002824**
+`Address: 0xe0002800 + 0x24 = 0xe0002824`
 
-    Update of the current countdown value.A write to this register latches the current countdown value to `value` register.
+    Update of the current countdown value.A write to this register latches the
+    current countdown value to `value` register.
 
     .. wavedrom::
         :caption: TIMER0_UPDATE_VALUE
@@ -250,7 +256,7 @@ TIMER0_UPDATE_VALUE
 TIMER0_VALUE3
 ^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x28 = 0xe0002828**
+`Address: 0xe0002800 + 0x28 = 0xe0002828`
 
     Bits 24-31 of `TIMER0_VALUE`. Latched countdown value
 
@@ -267,7 +273,7 @@ TIMER0_VALUE3
 TIMER0_VALUE2
 ^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x2c = 0xe000282c**
+`Address: 0xe0002800 + 0x2c = 0xe000282c`
 
     Bits 16-23 of `TIMER0_VALUE`.
 
@@ -284,7 +290,7 @@ TIMER0_VALUE2
 TIMER0_VALUE1
 ^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x30 = 0xe0002830**
+`Address: 0xe0002800 + 0x30 = 0xe0002830`
 
     Bits 8-15 of `TIMER0_VALUE`.
 
@@ -301,7 +307,7 @@ TIMER0_VALUE1
 TIMER0_VALUE0
 ^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x34 = 0xe0002834**
+`Address: 0xe0002800 + 0x34 = 0xe0002834`
 
     Bits 0-7 of `TIMER0_VALUE`.
 
@@ -318,7 +324,7 @@ TIMER0_VALUE0
 TIMER0_EV_STATUS
 ^^^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x38 = 0xe0002838**
+`Address: 0xe0002800 + 0x38 = 0xe0002838`
 
     This register contains the current raw level of the Event trigger.  Writes to this register have no effect.
 
@@ -342,7 +348,7 @@ TIMER0_EV_STATUS
 TIMER0_EV_PENDING
 ^^^^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x3c = 0xe000283c**
+`Address: 0xe0002800 + 0x3c = 0xe000283c`
 
     When an Event occurs, the corresponding bit will be set in this register.  To clear the Event, set the corresponding bit in this register.
 
@@ -366,7 +372,7 @@ TIMER0_EV_PENDING
 TIMER0_EV_ENABLE
 ^^^^^^^^^^^^^^^^
 
-**Address: 0xe0002800 + 0x40 = 0xe0002840**
+`Address: 0xe0002800 + 0x40 = 0xe0002840`
 
     This register enables the corresponding Events.  Write a `0` to this register to disable individual events.
 

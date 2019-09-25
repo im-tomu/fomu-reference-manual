@@ -4,32 +4,32 @@ CTRL
 Register Listing for CTRL
 -------------------------
 
-+------------------+----------------+
-| Register         | Address        |
-+==================+================+
-| CTRL_RESET       | ``0xe0000000`` |
-+------------------+----------------+
-| CTRL_SCRATCH3    | ``0xe0000004`` |
-+------------------+----------------+
-| CTRL_SCRATCH2    | ``0xe0000008`` |
-+------------------+----------------+
-| CTRL_SCRATCH1    | ``0xe000000c`` |
-+------------------+----------------+
-| CTRL_SCRATCH0    | ``0xe0000010`` |
-+------------------+----------------+
-| CTRL_BUS_ERRORS3 | ``0xe0000014`` |
-+------------------+----------------+
-| CTRL_BUS_ERRORS2 | ``0xe0000018`` |
-+------------------+----------------+
-| CTRL_BUS_ERRORS1 | ``0xe000001c`` |
-+------------------+----------------+
-| CTRL_BUS_ERRORS0 | ``0xe0000020`` |
-+------------------+----------------+
++--------------------------------------------+--------------------------------------+
+| Register                                   | Address                              |
++============================================+======================================+
+| :ref:`CTRL_RESET <CTRL_RESET>`             | :ref:`0xe0000000 <CTRL_RESET>`       |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_SCRATCH3 <CTRL_SCRATCH3>`       | :ref:`0xe0000004 <CTRL_SCRATCH3>`    |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_SCRATCH2 <CTRL_SCRATCH2>`       | :ref:`0xe0000008 <CTRL_SCRATCH2>`    |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_SCRATCH1 <CTRL_SCRATCH1>`       | :ref:`0xe000000c <CTRL_SCRATCH1>`    |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_SCRATCH0 <CTRL_SCRATCH0>`       | :ref:`0xe0000010 <CTRL_SCRATCH0>`    |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_BUS_ERRORS3 <CTRL_BUS_ERRORS3>` | :ref:`0xe0000014 <CTRL_BUS_ERRORS3>` |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_BUS_ERRORS2 <CTRL_BUS_ERRORS2>` | :ref:`0xe0000018 <CTRL_BUS_ERRORS2>` |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_BUS_ERRORS1 <CTRL_BUS_ERRORS1>` | :ref:`0xe000001c <CTRL_BUS_ERRORS1>` |
++--------------------------------------------+--------------------------------------+
+| :ref:`CTRL_BUS_ERRORS0 <CTRL_BUS_ERRORS0>` | :ref:`0xe0000020 <CTRL_BUS_ERRORS0>` |
++--------------------------------------------+--------------------------------------+
 
 CTRL_RESET
 ^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x0 = 0xe0000000**
+`Address: 0xe0000000 + 0x0 = 0xe0000000`
 
 
     .. wavedrom::
@@ -46,7 +46,7 @@ CTRL_RESET
 CTRL_SCRATCH3
 ^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x4 = 0xe0000004**
+`Address: 0xe0000000 + 0x4 = 0xe0000004`
 
     Bits 24-31 of `CTRL_SCRATCH`.
 
@@ -63,7 +63,7 @@ CTRL_SCRATCH3
 CTRL_SCRATCH2
 ^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x8 = 0xe0000008**
+`Address: 0xe0000000 + 0x8 = 0xe0000008`
 
     Bits 16-23 of `CTRL_SCRATCH`.
 
@@ -80,7 +80,7 @@ CTRL_SCRATCH2
 CTRL_SCRATCH1
 ^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0xc = 0xe000000c**
+`Address: 0xe0000000 + 0xc = 0xe000000c`
 
     Bits 8-15 of `CTRL_SCRATCH`.
 
@@ -97,7 +97,7 @@ CTRL_SCRATCH1
 CTRL_SCRATCH0
 ^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x10 = 0xe0000010**
+`Address: 0xe0000000 + 0x10 = 0xe0000010`
 
     Bits 0-7 of `CTRL_SCRATCH`.
 
@@ -114,7 +114,7 @@ CTRL_SCRATCH0
 CTRL_BUS_ERRORS3
 ^^^^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x14 = 0xe0000014**
+`Address: 0xe0000000 + 0x14 = 0xe0000014`
 
     Bits 24-31 of `CTRL_BUS_ERRORS`.
 
@@ -131,7 +131,7 @@ CTRL_BUS_ERRORS3
 CTRL_BUS_ERRORS2
 ^^^^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x18 = 0xe0000018**
+`Address: 0xe0000000 + 0x18 = 0xe0000018`
 
     Bits 16-23 of `CTRL_BUS_ERRORS`.
 
@@ -148,7 +148,7 @@ CTRL_BUS_ERRORS2
 CTRL_BUS_ERRORS1
 ^^^^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x1c = 0xe000001c**
+`Address: 0xe0000000 + 0x1c = 0xe000001c`
 
     Bits 8-15 of `CTRL_BUS_ERRORS`.
 
@@ -165,7 +165,7 @@ CTRL_BUS_ERRORS1
 CTRL_BUS_ERRORS0
 ^^^^^^^^^^^^^^^^
 
-**Address: 0xe0000000 + 0x20 = 0xe0000020**
+`Address: 0xe0000000 + 0x20 = 0xe0000020`
 
     Bits 0-7 of `CTRL_BUS_ERRORS`.
 

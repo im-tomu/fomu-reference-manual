@@ -40,8 +40,8 @@
 <h2>Register Listing for LXSPI<a class="headerlink" href="#register-listing-for-lxspi" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 53%" />
-<col style="width: 47%" />
+<col style="width: 54%" />
+<col style="width: 46%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Register</p></th>
@@ -49,22 +49,23 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>LXSPI_BITBANG</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007800</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lxspi-bitbang"><span class="std std-ref">LXSPI_BITBANG</span></a></p></td>
+<td><p><a class="reference internal" href="#lxspi-bitbang"><span class="std std-ref">0xe0007800</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>LXSPI_MISO</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007804</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#lxspi-miso"><span class="std std-ref">LXSPI_MISO</span></a></p></td>
+<td><p><a class="reference internal" href="#lxspi-miso"><span class="std std-ref">0xe0007804</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>LXSPI_BITBANG_EN</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007808</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#lxspi-bitbang-en"><span class="std std-ref">LXSPI_BITBANG_EN</span></a></p></td>
+<td><p><a class="reference internal" href="#lxspi-bitbang-en"><span class="std std-ref">0xe0007808</span></a></p></td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="lxspi-bitbang">
 <h3>LXSPI_BITBANG<a class="headerlink" href="#lxspi-bitbang" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0007800 + 0x0 = 0xe0007800</strong></p>
+<p><cite>Address: 0xe0007800 + 0x0 = 0xe0007800</cite></p>
 <blockquote>
-<div><p>Bitbang controls for SPI output.  Only standard 1x SPI is supported,                             meaning the IO2 and IO3 lines will be hardwired to <cite>1</cite> during bitbang mode.</p>
+<div><p>Bitbang controls for SPI output.  Only standard 1x SPI is supported,
+meaning the IO2 and IO3 lines will be hardwired to <cite>1</cite> during bitbang mode.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -134,7 +135,7 @@
 </div>
 <div class="section" id="lxspi-miso">
 <h3>LXSPI_MISO<a class="headerlink" href="#lxspi-miso" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0007800 + 0x4 = 0xe0007804</strong></p>
+<p><cite>Address: 0xe0007800 + 0x4 = 0xe0007804</cite></p>
 <blockquote>
 <div><p>Incoming value of MISO signal.</p>
 
@@ -152,7 +153,7 @@
 </div>
 <div class="section" id="lxspi-bitbang-en">
 <h3>LXSPI_BITBANG_EN<a class="headerlink" href="#lxspi-bitbang-en" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0007800 + 0x8 = 0xe0007808</strong></p>
+<p><cite>Address: 0xe0007800 + 0x8 = 0xe0007808</cite></p>
 <blockquote>
 <div><p>Write a <cite>1</cite> here to disable memory-mapped mode and enable bitbang mode.</p>
 
@@ -195,6 +196,7 @@
 
 <h3>Navigation</h3>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="interrupts.html">Interrupt Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctrl.html">CTRL</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">LXSPI</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#register-listing-for-lxspi">Register Listing for LXSPI</a><ul>

@@ -40,8 +40,8 @@
 <h2>Register Listing for REBOOT<a class="headerlink" href="#register-listing-for-reboot" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 47%" />
-<col style="width: 53%" />
+<col style="width: 51%" />
+<col style="width: 49%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Register</p></th>
@@ -49,28 +49,30 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>REBOOT_CTRL</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe0006000</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#reboot-ctrl"><span class="std std-ref">REBOOT_CTRL</span></a></p></td>
+<td><p><a class="reference internal" href="#reboot-ctrl"><span class="std std-ref">0xe0006000</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>REBOOT_ADDR3</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe0006004</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#reboot-addr3"><span class="std std-ref">REBOOT_ADDR3</span></a></p></td>
+<td><p><a class="reference internal" href="#reboot-addr3"><span class="std std-ref">0xe0006004</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>REBOOT_ADDR2</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe0006008</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#reboot-addr2"><span class="std std-ref">REBOOT_ADDR2</span></a></p></td>
+<td><p><a class="reference internal" href="#reboot-addr2"><span class="std std-ref">0xe0006008</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>REBOOT_ADDR1</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe000600c</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#reboot-addr1"><span class="std std-ref">REBOOT_ADDR1</span></a></p></td>
+<td><p><a class="reference internal" href="#reboot-addr1"><span class="std std-ref">0xe000600c</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p>REBOOT_ADDR0</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">0xe0006010</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#reboot-addr0"><span class="std std-ref">REBOOT_ADDR0</span></a></p></td>
+<td><p><a class="reference internal" href="#reboot-addr0"><span class="std std-ref">0xe0006010</span></a></p></td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="reboot-ctrl">
 <h3>REBOOT_CTRL<a class="headerlink" href="#reboot-ctrl" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0006000 + 0x0 = 0xe0006000</strong></p>
+<p><cite>Address: 0xe0006000 + 0x0 = 0xe0006000</cite></p>
 <blockquote>
-<div><p>Support rebooting the FPGA.  You can select which of the four images to reboot to, just be sure to OR the image number with 0xac.  For example, to reboot to the bootloader (image 0), write <cite>0xac</cite> to this register.</p>
+<div><p>Support rebooting the FPGA.  You can select which of the four images to reboot
+to, just be sure to OR the image number with 0xac.  For example, to reboot to
+the bootloader (image 0), write <cite>0xac</cite> to this register.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -85,9 +87,9 @@
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 4%" />
-<col style="width: 4%" />
-<col style="width: 93%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 85%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -98,7 +100,9 @@
 <tbody>
 <tr class="row-even"><td><p>[1:0]</p></td>
 <td><p>IMAGE</p></td>
-<td><p>Which image to reboot to.  <cite>SB_WARMBOOT</cite> supports four images that are configured at startup.  The bootloader is image 0, so set these bits to 0 to reboot back into the bootloader.</p></td>
+<td><p>Which image to reboot to.  <cite>SB_WARMBOOT</cite> supports four images that are
+configured at startup.  The bootloader is image 0, so set these bits to 0 to
+reboot back into the bootloader.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[7:2]</p></td>
 <td><p>KEY</p></td>
@@ -109,9 +113,12 @@
 </div>
 <div class="section" id="reboot-addr3">
 <h3>REBOOT_ADDR3<a class="headerlink" href="#reboot-addr3" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0006000 + 0x4 = 0xe0006004</strong></p>
+<p><cite>Address: 0xe0006000 + 0x4 = 0xe0006004</cite></p>
 <blockquote>
-<div><p>Bits 24-31 of <cite>REBOOT_ADDR</cite>. This sets the reset vector for the VexRiscv.                                             This address will be used whenever the CPU is reset, for example                                             through a debug bridge.  You should update this address whenever                                             you load a new program, to enable the debugger to run <cite>mon reset</cite></p>
+<div><p>Bits 24-31 of <cite>REBOOT_ADDR</cite>. This sets the reset vector for the VexRiscv.
+This address will be used whenever the CPU is reset, for example
+through a debug bridge.  You should update this address whenever
+you load a new program, to enable the debugger to run <cite>mon reset</cite></p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -126,7 +133,7 @@
 </div>
 <div class="section" id="reboot-addr2">
 <h3>REBOOT_ADDR2<a class="headerlink" href="#reboot-addr2" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0006000 + 0x8 = 0xe0006008</strong></p>
+<p><cite>Address: 0xe0006000 + 0x8 = 0xe0006008</cite></p>
 <blockquote>
 <div><p>Bits 16-23 of <cite>REBOOT_ADDR</cite>.</p>
 
@@ -143,7 +150,7 @@
 </div>
 <div class="section" id="reboot-addr1">
 <h3>REBOOT_ADDR1<a class="headerlink" href="#reboot-addr1" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0006000 + 0xc = 0xe000600c</strong></p>
+<p><cite>Address: 0xe0006000 + 0xc = 0xe000600c</cite></p>
 <blockquote>
 <div><p>Bits 8-15 of <cite>REBOOT_ADDR</cite>.</p>
 
@@ -160,7 +167,7 @@
 </div>
 <div class="section" id="reboot-addr0">
 <h3>REBOOT_ADDR0<a class="headerlink" href="#reboot-addr0" title="Permalink to this headline">¶</a></h3>
-<p><strong>Address: 0xe0006000 + 0x10 = 0xe0006010</strong></p>
+<p><cite>Address: 0xe0006000 + 0x10 = 0xe0006010</cite></p>
 <blockquote>
 <div><p>Bits 0-7 of <cite>REBOOT_ADDR</cite>.</p>
 
@@ -202,6 +209,7 @@
 
 <h3>Navigation</h3>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="interrupts.html">Interrupt Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctrl.html">CTRL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lxspi.html">LXSPI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="messible.html">MESSIBLE</a></li>
