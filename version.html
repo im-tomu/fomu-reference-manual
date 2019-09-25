@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>VERSION &#8212; LiteX SoC Project  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/default.js"></script>
+    <script type="text/javascript" src="_static/WaveDrom.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="USB" href="usb.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="version">
+<h1>VERSION<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="register-listing-for-version">
+<h2>Register Listing for VERSION<a class="headerlink" href="#register-listing-for-version" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 54%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Register</p></th>
+<th class="head"><p>Address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>VERSION_MAJOR</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007000</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>VERSION_MINOR</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007004</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>VERSION_REVISION</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007008</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>VERSION_GITREV3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe000700c</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>VERSION_GITREV2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007010</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>VERSION_GITREV1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007014</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>VERSION_GITREV0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007018</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>VERSION_GITEXTRA1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe000701c</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>VERSION_GITEXTRA0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007020</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>VERSION_DIRTY</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007024</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>VERSION_MODEL</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0007028</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="version-major">
+<h3>VERSION_MAJOR<a class="headerlink" href="#version-major" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x0 = 0xe0007000</strong></p>
+<blockquote>
+<div><p>Major git tag version.  For example, if this repository was built from git tag <cite>v1.9.2</cite>, then this value would be <cite>1</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "major[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-minor">
+<h3>VERSION_MINOR<a class="headerlink" href="#version-minor" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x4 = 0xe0007004</strong></p>
+<blockquote>
+<div><p>Minor git tag version.  For example, if this repository was built from git tag <cite>v1.9.2</cite>, then this value would be <cite>9</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "minor[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-revision">
+<h3>VERSION_REVISION<a class="headerlink" href="#version-revision" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x8 = 0xe0007008</strong></p>
+<blockquote>
+<div><p>Revision git tag version.  For example, if this repository was built from git tag <cite>v1.9.2</cite>, then this value would be <cite>2</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "revision[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-gitrev3">
+<h3>VERSION_GITREV3<a class="headerlink" href="#version-gitrev3" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0xc = 0xe000700c</strong></p>
+<blockquote>
+<div><p>Bits 24-31 of <cite>VERSION_GITREV</cite>. First 32-bits of the git revision.  This should be enough to check out the exact git version used to build this firmware.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "gitrev[31:24]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-gitrev2">
+<h3>VERSION_GITREV2<a class="headerlink" href="#version-gitrev2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x10 = 0xe0007010</strong></p>
+<blockquote>
+<div><p>Bits 16-23 of <cite>VERSION_GITREV</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "gitrev[23:16]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-gitrev1">
+<h3>VERSION_GITREV1<a class="headerlink" href="#version-gitrev1" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x14 = 0xe0007014</strong></p>
+<blockquote>
+<div><p>Bits 8-15 of <cite>VERSION_GITREV</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "gitrev[15:8]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-gitrev0">
+<h3>VERSION_GITREV0<a class="headerlink" href="#version-gitrev0" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x18 = 0xe0007018</strong></p>
+<blockquote>
+<div><p>Bits 0-7 of <cite>VERSION_GITREV</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "gitrev[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-gitextra1">
+<h3>VERSION_GITEXTRA1<a class="headerlink" href="#version-gitextra1" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x1c = 0xe000701c</strong></p>
+<blockquote>
+<div><p>Bits 8-9 of <cite>VERSION_GITEXTRA</cite>. The number of additional commits beyond the git tag.  For example, if this value is <cite>1</cite>, then the repository this was built from has one additional commit beyond the tag indicated in <cite>MAJOR</cite>, <cite>MINOR</cite>, and <cite>REVISION</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "gitextra[15:8]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-gitextra0">
+<h3>VERSION_GITEXTRA0<a class="headerlink" href="#version-gitextra0" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x20 = 0xe0007020</strong></p>
+<blockquote>
+<div><p>Bits 0-7 of <cite>VERSION_GITEXTRA</cite>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "gitextra[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="version-dirty">
+<h3>VERSION_DIRTY<a class="headerlink" href="#version-dirty" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x24 = 0xe0007024</strong></p>
+<blockquote>
+<div>
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "dirty",  "bits": 1},
+        {"bits": 7}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[0]</p></td>
+<td><p>DIRTY</p></td>
+<td><p>Set to <cite>1</cite> if this device was built from a git repo with uncommitted modifications.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="version-model">
+<h3>VERSION_MODEL<a class="headerlink" href="#version-model" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0007000 + 0x28 = 0xe0007028</strong></p>
+<blockquote>
+<div>
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "model",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 9%" />
+<col style="width: 82%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[7:0]</p></td>
+<td><p>MODEL</p></td>
+<td><p>Contains information on which model device this was built for.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Value</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0x45</p></td>
+<td><p>Fomu EVT</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x44</p></td>
+<td><p>Fomu DVT</p></td>
+</tr>
+<tr class="row-even"><td><p>0x50</p></td>
+<td><p>Fomu PVT (production)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x48</p></td>
+<td><p>Fomu Hacker</p></td>
+</tr>
+<tr class="row-even"><td><p>0x3f</p></td>
+<td><p>Unknown model</p></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">LiteX SoC Project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ctrl.html">CTRL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lxspi.html">LXSPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messible.html">MESSIBLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reboot.html">REBOOT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rgb.html">RGB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timer0.html">TIMER0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="touch.html">TOUCH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usb.html">USB</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">VERSION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#register-listing-for-version">Register Listing for VERSION</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version-major">VERSION_MAJOR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-minor">VERSION_MINOR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-revision">VERSION_REVISION</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-gitrev3">VERSION_GITREV3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-gitrev2">VERSION_GITREV2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-gitrev1">VERSION_GITREV1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-gitrev0">VERSION_GITREV0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-gitextra1">VERSION_GITEXTRA1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-gitextra0">VERSION_GITEXTRA0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-dirty">VERSION_DIRTY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-model">VERSION_MODEL</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="usb.html" title="previous chapter">USB</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Anonymous.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/version.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,37 @@
+
+Documentation for LiteX SoC Project
+===================================
+
+.. toctree::
+    :hidden:
+
+    ctrl
+    lxspi
+    messible
+    reboot
+    rgb
+    timer0
+    touch
+    usb
+    version
+
+Register Groups
+===============
+
+* :doc:`CTRL <ctrl>`
+* :doc:`LXSPI <lxspi>`
+* :doc:`MESSIBLE <messible>`
+* :doc:`REBOOT <reboot>`
+* :doc:`RGB <rgb>`
+* :doc:`TIMER0 <timer0>`
+* :doc:`TOUCH <touch>`
+* :doc:`USB <usb>`
+* :doc:`VERSION <version>`
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

@@ -1,0 +1,244 @@
+VERSION
+=======
+
+Register Listing for VERSION
+----------------------------
+
++-------------------+----------------+
+| Register          | Address        |
++===================+================+
+| VERSION_MAJOR     | ``0xe0007000`` |
++-------------------+----------------+
+| VERSION_MINOR     | ``0xe0007004`` |
++-------------------+----------------+
+| VERSION_REVISION  | ``0xe0007008`` |
++-------------------+----------------+
+| VERSION_GITREV3   | ``0xe000700c`` |
++-------------------+----------------+
+| VERSION_GITREV2   | ``0xe0007010`` |
++-------------------+----------------+
+| VERSION_GITREV1   | ``0xe0007014`` |
++-------------------+----------------+
+| VERSION_GITREV0   | ``0xe0007018`` |
++-------------------+----------------+
+| VERSION_GITEXTRA1 | ``0xe000701c`` |
++-------------------+----------------+
+| VERSION_GITEXTRA0 | ``0xe0007020`` |
++-------------------+----------------+
+| VERSION_DIRTY     | ``0xe0007024`` |
++-------------------+----------------+
+| VERSION_MODEL     | ``0xe0007028`` |
++-------------------+----------------+
+
+VERSION_MAJOR
+^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x0 = 0xe0007000**
+
+    Major git tag version.  For example, if this repository was built from git tag `v1.9.2`, then this value would be `1`.
+
+    .. wavedrom::
+        :caption: VERSION_MAJOR
+
+        {
+            "reg": [
+                {"name": "major[7:0]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_MINOR
+^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x4 = 0xe0007004**
+
+    Minor git tag version.  For example, if this repository was built from git tag `v1.9.2`, then this value would be `9`.
+
+    .. wavedrom::
+        :caption: VERSION_MINOR
+
+        {
+            "reg": [
+                {"name": "minor[7:0]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_REVISION
+^^^^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x8 = 0xe0007008**
+
+    Revision git tag version.  For example, if this repository was built from git tag `v1.9.2`, then this value would be `2`.
+
+    .. wavedrom::
+        :caption: VERSION_REVISION
+
+        {
+            "reg": [
+                {"name": "revision[7:0]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_GITREV3
+^^^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0xc = 0xe000700c**
+
+    Bits 24-31 of `VERSION_GITREV`. First 32-bits of the git revision.  This should be enough to check out the exact git version used to build this firmware.
+
+    .. wavedrom::
+        :caption: VERSION_GITREV3
+
+        {
+            "reg": [
+                {"name": "gitrev[31:24]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_GITREV2
+^^^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x10 = 0xe0007010**
+
+    Bits 16-23 of `VERSION_GITREV`.
+
+    .. wavedrom::
+        :caption: VERSION_GITREV2
+
+        {
+            "reg": [
+                {"name": "gitrev[23:16]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_GITREV1
+^^^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x14 = 0xe0007014**
+
+    Bits 8-15 of `VERSION_GITREV`.
+
+    .. wavedrom::
+        :caption: VERSION_GITREV1
+
+        {
+            "reg": [
+                {"name": "gitrev[15:8]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_GITREV0
+^^^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x18 = 0xe0007018**
+
+    Bits 0-7 of `VERSION_GITREV`.
+
+    .. wavedrom::
+        :caption: VERSION_GITREV0
+
+        {
+            "reg": [
+                {"name": "gitrev[7:0]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_GITEXTRA1
+^^^^^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x1c = 0xe000701c**
+
+    Bits 8-9 of `VERSION_GITEXTRA`. The number of additional commits beyond the git tag.  For example, if this value is `1`, then the repository this was built from has one additional commit beyond the tag indicated in `MAJOR`, `MINOR`, and `REVISION`.
+
+    .. wavedrom::
+        :caption: VERSION_GITEXTRA1
+
+        {
+            "reg": [
+                {"name": "gitextra[15:8]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_GITEXTRA0
+^^^^^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x20 = 0xe0007020**
+
+    Bits 0-7 of `VERSION_GITEXTRA`.
+
+    .. wavedrom::
+        :caption: VERSION_GITEXTRA0
+
+        {
+            "reg": [
+                {"name": "gitextra[7:0]",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
+VERSION_DIRTY
+^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x24 = 0xe0007024**
+
+
+    .. wavedrom::
+        :caption: VERSION_DIRTY
+
+        {
+            "reg": [
+                {"name": "dirty",  "bits": 1},
+                {"bits": 7}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
++-------+-------+-------------------------------------------------------------------------------------+
+| Field | Name  | Description                                                                         |
++=======+=======+=====================================================================================+
+| [0]   | DIRTY | Set to `1` if this device was built from a git repo with uncommitted modifications. |
++-------+-------+-------------------------------------------------------------------------------------+
+
+VERSION_MODEL
+^^^^^^^^^^^^^
+
+**Address: 0xe0007000 + 0x28 = 0xe0007028**
+
+
+    .. wavedrom::
+        :caption: VERSION_MODEL
+
+        {
+            "reg": [
+                {"name": "model",  "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
++-------+-------+----------------------------------------------------------------+
+| Field | Name  | Description                                                    |
++=======+=======+================================================================+
+| [7:0] | MODEL | Contains information on which model device this was built for. |
+|       |       |                                                                |
+|       |       | +-------+-----------------------+                              |
+|       |       | | Value | Description           |                              |
+|       |       | +=======+=======================+                              |
+|       |       | | 0x45  | Fomu EVT              |                              |
+|       |       | +-------+-----------------------+                              |
+|       |       | | 0x44  | Fomu DVT              |                              |
+|       |       | +-------+-----------------------+                              |
+|       |       | | 0x50  | Fomu PVT (production) |                              |
+|       |       | +-------+-----------------------+                              |
+|       |       | | 0x48  | Fomu Hacker           |                              |
+|       |       | +-------+-----------------------+                              |
+|       |       | | 0x3f  | Unknown model         |                              |
+|       |       | +-------+-----------------------+                              |
++-------+-------+----------------------------------------------------------------+
+

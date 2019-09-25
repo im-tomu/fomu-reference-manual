@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>MESSIBLE &#8212; LiteX SoC Project  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/default.js"></script>
+    <script type="text/javascript" src="_static/WaveDrom.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="REBOOT" href="reboot.html" />
+    <link rel="prev" title="LXSPI" href="lxspi.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="messible">
+<h1>MESSIBLE<a class="headerlink" href="#messible" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="messible-an-ansible-for-messages">
+<h2>Messible: An Ansible for Messages<a class="headerlink" href="#messible-an-ansible-for-messages" title="Permalink to this headline">¶</a></h2>
+<p>An Ansible is a system for instant communication across vast distances, from
+a small portable device to a huge terminal far away.  A Messible is a message-
+passing system from embedded devices to a host system.  You can use it to get
+very simple printf()-style support over a debug channel.</p>
+<p>The Messible assumes the host has a way to peek into the device’s memory space.
+This is the case with the Wishbone bridge, which allows both the device and
+the host to access the same memory.</p>
+<p>At its core, a Messible is a FIFO.  As long as the <code class="docutils literal notranslate"><span class="pre">STATUS.FULL</span></code> bit is <code class="docutils literal notranslate"><span class="pre">0</span></code>, the
+device can write data into the Messible by writing into the <code class="docutils literal notranslate"><span class="pre">IN</span></code>.  However, if this
+value is <code class="docutils literal notranslate"><span class="pre">1</span></code>, you need to decide if you want to wait for it to empty (if the other
+side is just slow), or if you want to drop the message.</p>
+<p>From the host side, you need to read <code class="docutils literal notranslate"><span class="pre">STATUS.HAVE</span></code> to see if there is data
+in the FIFO.  If there is, read <code class="docutils literal notranslate"><span class="pre">OUT</span></code> to get the most recent byte, which automatically
+advances the <code class="docutils literal notranslate"><span class="pre">READ</span></code> pointer.</p>
+</div>
+<div class="section" id="register-listing-for-messible">
+<h2>Register Listing for MESSIBLE<a class="headerlink" href="#register-listing-for-messible" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 52%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Register</p></th>
+<th class="head"><p>Address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>MESSIBLE_IN</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0008000</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>MESSIBLE_OUT</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0008004</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>MESSIBLE_STATUS</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0008008</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="messible-in">
+<h3>MESSIBLE_IN<a class="headerlink" href="#messible-in" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0008000 + 0x0 = 0xe0008000</strong></p>
+<blockquote>
+<div><p>Write half of the FIFO to send data out the Messible.         Writing to this register advances the write pointer automatically.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "in[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="messible-out">
+<h3>MESSIBLE_OUT<a class="headerlink" href="#messible-out" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0008000 + 0x4 = 0xe0008004</strong></p>
+<blockquote>
+<div><p>Read half of the FIFO to receive data on the Messible.         Reading from this register advances the read pointer automatically.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "out[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="messible-status">
+<h3>MESSIBLE_STATUS<a class="headerlink" href="#messible-status" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0008000 + 0x8 = 0xe0008008</strong></p>
+<blockquote>
+<div>
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "full",  "bits": 1},
+        {"name": "have",  "bits": 1},
+        {"bits": 6}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 11%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[0]</p></td>
+<td><p>FULL</p></td>
+<td><p><cite>0</cite> if more data can fit into the IN FIFO.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[1]</p></td>
+<td><p>HAVE</p></td>
+<td><p><cite>1</cite> if data can be read from the OUT FIFO.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">LiteX SoC Project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ctrl.html">CTRL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lxspi.html">LXSPI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MESSIBLE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#messible-an-ansible-for-messages">Messible: An Ansible for Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#register-listing-for-messible">Register Listing for MESSIBLE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#messible-in">MESSIBLE_IN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#messible-out">MESSIBLE_OUT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#messible-status">MESSIBLE_STATUS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reboot.html">REBOOT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rgb.html">RGB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timer0.html">TIMER0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="touch.html">TOUCH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usb.html">USB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html">VERSION</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="lxspi.html" title="previous chapter">LXSPI</a></li>
+      <li>Next: <a href="reboot.html" title="next chapter">REBOOT</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Anonymous.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/messible.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

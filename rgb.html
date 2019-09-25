@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>RGB &#8212; LiteX SoC Project  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/default.js"></script>
+    <script type="text/javascript" src="_static/WaveDrom.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="TIMER0" href="timer0.html" />
+    <link rel="prev" title="REBOOT" href="reboot.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="rgb">
+<h1>RGB<a class="headerlink" href="#rgb" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="register-listing-for-rgb">
+<h2>Register Listing for RGB<a class="headerlink" href="#register-listing-for-rgb" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Register</p></th>
+<th class="head"><p>Address</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RGB_DAT</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0006800</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>RGB_ADDR</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0006804</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>RGB_CTRL</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe0006808</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>RGB_RAW</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0xe000680c</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="rgb-dat">
+<h3>RGB_DAT<a class="headerlink" href="#rgb-dat" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0006800 + 0x0 = 0xe0006800</strong></p>
+<blockquote>
+<div><p>This is the value for the <cite>SB_LEDDA_IP.DAT</cite> register.  It is                             directly written into the <cite>SB_LEDDA_IP</cite> hardware block, so you should                             refer to <a class="reference external" href="http://www.latticesemi.com/view_document?document_id=50668">http://www.latticesemi.com/view_document?document_id=50668</a>.  The                             contents of this register are written to the address specified in <cite>ADDR</cite>                             immediately upon writing this register.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "dat[7:0]",  "bits": 8}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="rgb-addr">
+<h3>RGB_ADDR<a class="headerlink" href="#rgb-addr" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0006800 + 0x4 = 0xe0006804</strong></p>
+<blockquote>
+<div><p>This register is directly connected to <cite>SB_LEDDA_IP.ADDR</cite>.                             This register controls the address that is updated whenever <cite>DAT</cite> is written.                             Writing to this register has no immediate effect – data isn’t written until                             the <cite>DAT</cite> register is written.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "addr[3:0]",  "bits": 4},
+        {"bits": 4},
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="rgb-ctrl">
+<h3>RGB_CTRL<a class="headerlink" href="#rgb-ctrl" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0006800 + 0x8 = 0xe0006808</strong></p>
+<blockquote>
+<div><p>Control logic for the RGB LED and LEDDA hardware PWM LED block.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "exe",  "bits": 1},
+        {"name": "curren",  "bits": 1},
+        {"name": "rgbleden",  "bits": 1},
+        {"name": "rraw",  "bits": 1},
+        {"name": "graw",  "bits": 1},
+        {"name": "braw",  "bits": 1},
+        {"bits": 2}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 9%" />
+<col style="width: 84%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[0]</p></td>
+<td><p>EXE</p></td>
+<td><p>Connected to <cite>SB_LEDDA_IP.LEDDEXE</cite>.  Set this to <cite>1</cite> to enable the fading pattern.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[1]</p></td>
+<td><p>CURREN</p></td>
+<td><p>Connected to <cite>SB_RGBA_DRV.CURREN</cite>.  Set this to <cite>1</cite> to enable the current source.</p></td>
+</tr>
+<tr class="row-even"><td><p>[2]</p></td>
+<td><p>RGBLEDEN</p></td>
+<td><p>Connected to <cite>SB_RGBA_DRV.RGBLEDEN</cite>.  Set this to <cite>1</cite> to enable the RGB PWM control logic.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[3]</p></td>
+<td><p>RRAW</p></td>
+<td><p>Set this to <cite>1</cite> to enable raw control of the red LED via the <cite>RAW.R</cite> register.</p></td>
+</tr>
+<tr class="row-even"><td><p>[4]</p></td>
+<td><p>GRAW</p></td>
+<td><p>Set this to <cite>1</cite> to enable raw control of the green LED via the <cite>RAW.G</cite> register.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[5]</p></td>
+<td><p>BRAW</p></td>
+<td><p>Set this to <cite>1</cite> to enable raw control of the blue LED via the <cite>RAW.B</cite> register.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rgb-raw">
+<h3>RGB_RAW<a class="headerlink" href="#rgb-raw" title="Permalink to this headline">¶</a></h3>
+<p><strong>Address: 0xe0006800 + 0xc = 0xe000680c</strong></p>
+<blockquote>
+<div><p>Normally the hardware <cite>SB_LEDDA_IP</cite> block controls the brightness of the LED,                 creating a gentle fading pattern.  However, by setting the appropriate bit in <cite>CTRL</cite>,                 it is possible to manually control the three individual LEDs.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "r",  "bits": 1},
+        {"name": "g",  "bits": 1},
+        {"name": "b",  "bits": 1},
+        {"bits": 5}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 9%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[0]</p></td>
+<td><p>R</p></td>
+<td><p>Raw value for the red LED when <cite>CTRL.RRAW</cite> is <cite>1</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[1]</p></td>
+<td><p>G</p></td>
+<td><p>Raw value for the green LED when <cite>CTRL.GRAW</cite> is <cite>1</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p>[2]</p></td>
+<td><p>B</p></td>
+<td><p>Raw value for the blue LED when <cite>CTRL.BRAW</cite> is <cite>1</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">LiteX SoC Project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ctrl.html">CTRL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lxspi.html">LXSPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messible.html">MESSIBLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reboot.html">REBOOT</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RGB</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#register-listing-for-rgb">Register Listing for RGB</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rgb-dat">RGB_DAT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rgb-addr">RGB_ADDR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rgb-ctrl">RGB_CTRL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rgb-raw">RGB_RAW</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="timer0.html">TIMER0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="touch.html">TOUCH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usb.html">USB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html">VERSION</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="reboot.html" title="previous chapter">REBOOT</a></li>
+      <li>Next: <a href="timer0.html" title="next chapter">TIMER0</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Anonymous.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/rgb.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
