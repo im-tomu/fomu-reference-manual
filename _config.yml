@@ -1,0 +1,3 @@
+keep_files:
+    - _sources
+    - _static
