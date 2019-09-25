@@ -1,6 +1,6 @@
 
-Documentation for LiteX SoC Project
-===================================
+Documentation for Fomu Bootloader
+=================================
 
 .. toctree::
     :hidden:
