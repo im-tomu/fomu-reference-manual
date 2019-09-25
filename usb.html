@@ -46,6 +46,43 @@ This device does not yet support isochronous transfers, however it supports the
 other types of transfers.  It contains special logic for handing control transfers,
 including the handshake that is required.</p>
 </div>
+<div class="section" id="interrupt-and-bulk-transfers">
+<h2>Interrupt and Bulk Transfers<a class="headerlink" href="#interrupt-and-bulk-transfers" title="Permalink to this headline">¶</a></h2>
+<p>Interrupt and bulk transfers are similar from an implementation standpoint –
+they differ only in terms of how often they are transmitted.</p>
+<p>These transfers can be made to any endpoint, and may even be interleaved.  However,
+due to the nature of <cite>TriEndpointInterface</cite> any attempt by the host to interleave
+transfers will result in a <code class="docutils literal notranslate"><span class="pre">NAK</span></code>, and the host will retry later when the buffer
+is empty.</p>
+<div class="section" id="in-transfers">
+<h3>IN Transfers<a class="headerlink" href="#in-transfers" title="Permalink to this headline">¶</a></h3>
+<p>To make an <code class="docutils literal notranslate"><span class="pre">IN</span></code> transfer (i.e. to send data to the host), write the data to
+<code class="docutils literal notranslate"><span class="pre">IN.DATA</span></code>.  This is a FIFO, and each write to this endpoint will advance the
+FIFO pointer automatically.  This FIFO is 64 bytes deep.  USB <code class="docutils literal notranslate"><span class="pre">DATA</span></code> packets
+contain a CRC16 checksum, which is automatically added to any <code class="docutils literal notranslate"><span class="pre">IN</span></code> transfers.</p>
+<p><cite>TriEndpointInterface</cite> will continue to respond <code class="docutils literal notranslate"><span class="pre">NAK</span></code> until you arm the buffer.
+Do this by writing the endpoint number to <code class="docutils literal notranslate"><span class="pre">IN.CTRL</span></code>.  This will tell the device
+that it should send the data the next time the host asks for it.</p>
+<p>Once the data has been transferred, the device will raise an interrupt and you
+can begin re-filling the buffer.</p>
+<p>To send an empty packet, avoid writing any data to <code class="docutils literal notranslate"><span class="pre">IN.DATA</span></code> and simply write
+the endpoint number to <code class="docutils literal notranslate"><span class="pre">IN.CTRL</span></code>.</p>
+</div>
+<div class="section" id="out-transfers">
+<h3>OUT Transfers<a class="headerlink" href="#out-transfers" title="Permalink to this headline">¶</a></h3>
+<p>To respond to an <code class="docutils literal notranslate"><span class="pre">OUT</span></code> transfer (i.e. to receive data from the host), set the
+<code class="docutils literal notranslate"><span class="pre">OUT.ENABLE</span></code> bit.  This will tell the device to stop responding <code class="docutils literal notranslate"><span class="pre">NAK</span></code> and
+to accept any incoming data into a 66-byte FIFO.</p>
+<p>Once the host sends data, an interrupt will be raised and <code class="docutils literal notranslate"><span class="pre">OUT.ENABLE</span></code> will be
+set to <code class="docutils literal notranslate"><span class="pre">0</span></code>.  This prevents any additional data from entering the FIFO while
+the device examines the data.</p>
+<p>The FIFO will contain two extra bytes, which are the two-byte CRC16 of the packet.
+You can safely discard these bytes.  Because of this, a zero-byte transfer will
+be two-bytes, and a full 64-byte transfer will be 66 bytes.</p>
+<p>To determine which endpoint the <code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet was sent to, refer to
+<code class="docutils literal notranslate"><span class="pre">OUT_STATUS.EPNO</span></code>, which is only updated when a successful packet is received.</p>
+</div>
+</div>
 <div class="section" id="control-transfers">
 <h2>Control Transfers<a class="headerlink" href="#control-transfers" title="Permalink to this headline">¶</a></h2>
 <p>Control transfers are complicated, and are the first sort of transfer that
@@ -242,7 +279,7 @@ with the special type (0x43) as an <cite>attention</cite> word.  This is then fo
 <h3>USB_SETUP_DATA<a class="headerlink" href="#usb-setup-data" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0004800 + 0x4 = 0xe0004804</cite></p>
 <blockquote>
-<div><p>Data from the last <cite>SETUP</cite> transactions.  It will be 10 bytes long, because
+<div><p>Data from the last <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> transactions.  It will be 10 bytes long, because
 it will include the CRC16.  This is a FIFO, and the queue is advanced
 automatically.</p>
 
@@ -258,9 +295,9 @@ automatically.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 17%" />
-<col style="width: 14%" />
-<col style="width: 69%" />
+<col style="width: 15%" />
+<col style="width: 13%" />
+<col style="width: 72%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -271,7 +308,7 @@ automatically.</p>
 <tbody>
 <tr class="row-even"><td><p>[7:0]</p></td>
 <td><p>DATA</p></td>
-<td><p>The next byte of SETUP data</p></td>
+<td><p>The next byte of <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> data</p></td>
 </tr>
 </tbody>
 </table>
@@ -280,7 +317,7 @@ automatically.</p>
 <h3>USB_SETUP_CTRL<a class="headerlink" href="#usb-setup-ctrl" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0004800 + 0x8 = 0xe0004808</cite></p>
 <blockquote>
-<div><p>Controls for managing how to handle <cite>SETUP</cite> transactions.</p>
+<div><p>Controls for managing how to handle <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> transactions.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -299,7 +336,7 @@ automatically.</p>
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 13%" />
-<col style="width: 77%" />
+<col style="width: 78%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -310,11 +347,11 @@ automatically.</p>
 <tbody>
 <tr class="row-even"><td><p>[1]</p></td>
 <td><p>HANDLED</p></td>
-<td><p>Write a <cite>1</cite> here to indicate SETUP has been handled.</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to indicate SETUP has been handled.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[2]</p></td>
 <td><p>RESET</p></td>
-<td><p>Write a <cite>1</cite> here to reset the <cite>SETUP</cite> handler.</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to reset the <cite>SETUP</cite> handler.</p></td>
 </tr>
 </tbody>
 </table>
@@ -323,7 +360,7 @@ automatically.</p>
 <h3>USB_SETUP_STATUS<a class="headerlink" href="#usb-setup-status" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0004800 + 0xc = 0xe000480c</cite></p>
 <blockquote>
-<div><p>Status about the most recent <cite>SETUP</cite> transactions, and the state of the FIFO.</p>
+<div><p>Status about the most recent <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> transactions, and the state of the FIFO.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -354,11 +391,11 @@ automatically.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>HAVE</p></td>
-<td><p><cite>1</cite> if there is data in the FIFO.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is data in the FIFO.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[1]</p></td>
 <td><p>IS_IN</p></td>
-<td><p><cite>1</cite> if an IN stage was detected.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if an IN stage was detected.</p></td>
 </tr>
 <tr class="row-even"><td><p>[5:2]</p></td>
 <td><p>EPNO</p></td>
@@ -366,11 +403,11 @@ automatically.</p>
 </tr>
 <tr class="row-odd"><td><p>[6]</p></td>
 <td><p>PEND</p></td>
-<td><p><cite>1</cite> if there is an IRQ pending.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is an IRQ pending.</p></td>
 </tr>
 <tr class="row-even"><td><p>[7]</p></td>
 <td><p>DATA</p></td>
-<td><p><cite>1</cite> if a DATA stage is expected.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if a DATA stage is expected.</p></td>
 </tr>
 </tbody>
 </table>
@@ -431,9 +468,9 @@ automatically.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 8%" />
-<col style="width: 8%" />
-<col style="width: 84%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 86%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -444,7 +481,8 @@ automatically.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>READY</p></td>
-<td><p>Indicates a <cite>SETUP</cite> packet has arrived and is waiting in the <cite>SETUP</cite> FIFO.</p></td>
+<td><p>Indicates a <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> packet has arrived
+and is waiting in the <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> FIFO.</p></td>
 </tr>
 </tbody>
 </table>
@@ -490,11 +528,10 @@ automatically.</p>
 <h3>USB_IN_DATA<a class="headerlink" href="#usb-in-data" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0004800 + 0x1c = 0xe000481c</cite></p>
 <blockquote>
-<div><p>Each byte written into this register gets added to an outgoing FIFO. Any
-bytes that are written here will be transmitted in the order in which
-they were added.  The FIFO queue is automatically advanced with each write.
-The FIFO queue is 64 bytes deep.  If you exceed this amount, the result is
-undefined.</p>
+<div><p>Each byte written into this register gets added to an outgoing FIFO. Any bytes
+that are written here will be transmitted in the order in which they were added.
+The FIFO queue is automatically advanced with each write. The FIFO queue is 64
+bytes deep.  If you exceed this amount, the result is undefined.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -531,7 +568,7 @@ undefined.</p>
 <p><cite>Address: 0xe0004800 + 0x20 = 0xe0004820</cite></p>
 <blockquote>
 <div><p>Status about the IN handler.  As soon as you write to <cite>IN_DATA</cite>,
-<cite>IN_STATUS.HAVE</cite> should go to <cite>1</cite>.</p>
+<code class="docutils literal notranslate"><span class="pre">IN_STATUS.HAVE</span></code> should go to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -549,9 +586,9 @@ undefined.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 10%" />
+<col style="width: 9%" />
 <col style="width: 8%" />
-<col style="width: 82%" />
+<col style="width: 83%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -562,15 +599,15 @@ undefined.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>HAVE</p></td>
-<td><p>This value is ‘0’ if the FIFO is empty.</p></td>
+<td><p>This value is <code class="docutils literal notranslate"><span class="pre">0</span></code> if the FIFO is empty.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[1]</p></td>
 <td><p>IDLE</p></td>
-<td><p>This value is ‘1’ if the packet has finished transmitting.</p></td>
+<td><p>This value is <code class="docutils literal notranslate"><span class="pre">1</span></code> if the packet has finished transmitting.</p></td>
 </tr>
 <tr class="row-even"><td><p>[6]</p></td>
 <td><p>PEND</p></td>
-<td><p><cite>1</cite> if there is an IRQ pending.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is an IRQ pending.</p></td>
 </tr>
 </tbody>
 </table>
@@ -579,8 +616,8 @@ undefined.</p>
 <h3>USB_IN_CTRL<a class="headerlink" href="#usb-in-ctrl" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0004800 + 0x24 = 0xe0004824</cite></p>
 <blockquote>
-<div><p>Enables transmission of data in response to <cite>IN</cite> tokens, or resets
-the contents of the FIFO.</p>
+<div><p>Enables transmission of data in response to <code class="docutils literal notranslate"><span class="pre">IN</span></code> tokens, or resets the
+contents of the FIFO.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -614,11 +651,11 @@ the contents of the FIFO.</p>
 </tr>
 <tr class="row-odd"><td><p>[4]</p></td>
 <td><p>STALL</p></td>
-<td><p>Write a 1 here to stall the EP written in <cite>EP</cite>.</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to stall the EP written in <code class="docutils literal notranslate"><span class="pre">EP</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p>[5]</p></td>
 <td><p>RESET</p></td>
-<td><p>Write a 1 here to clear the contents of the FIFO.</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to clear the contents of the FIFO.</p></td>
 </tr>
 </tbody>
 </table>
@@ -738,9 +775,9 @@ the contents of the FIFO.</p>
 <h3>USB_OUT_DATA<a class="headerlink" href="#usb-out-data" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0004800 + 0x34 = 0xe0004834</cite></p>
 <blockquote>
-<div><p>Data received from the host will go into a FIFO.  This register
-reflects the contents of the top byte in that FIFO.  Reading from
-this register advances the FIFO pointer.</p>
+<div><p>Data received from the host will go into a FIFO.  This register reflects the
+contents of the top byte in that FIFO.  Reading from this register advances the
+FIFO pointer.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -794,9 +831,9 @@ this register advances the FIFO pointer.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 10%" />
+<col style="width: 9%" />
 <col style="width: 8%" />
-<col style="width: 82%" />
+<col style="width: 83%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -815,7 +852,7 @@ this register advances the FIFO pointer.</p>
 </tr>
 <tr class="row-even"><td><p>[5:2]</p></td>
 <td><p>EPNO</p></td>
-<td><p>The destination endpoint for the most recent OUT packet.</p></td>
+<td><p>The destination endpoint for the most recent <code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[6]</p></td>
 <td><p>PEND</p></td>
@@ -845,9 +882,9 @@ this register advances the FIFO pointer.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 12%" />
+<col style="width: 11%" />
 <col style="width: 13%" />
-<col style="width: 75%" />
+<col style="width: 77%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -862,7 +899,7 @@ this register advances the FIFO pointer.</p>
 </tr>
 <tr class="row-odd"><td><p>[2]</p></td>
 <td><p>RESET</p></td>
-<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to reset the OUT handler</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to reset the <code class="docutils literal notranslate"><span class="pre">OUT</span></code> handler</p></td>
 </tr>
 </tbody>
 </table>
@@ -965,9 +1002,9 @@ this register advances the FIFO pointer.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
+<col style="width: 7%" />
 <col style="width: 6%" />
-<col style="width: 5%" />
-<col style="width: 90%" />
+<col style="width: 87%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -978,12 +1015,9 @@ this register advances the FIFO pointer.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>DONE</p></td>
-<td><dl class="simple">
-<dt>Indicates that an</dt><dd><p><code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet has successfully been
-transfered to the host.</p>
-</dd>
-</dl>
-</td>
+<td><p>Indicates that an <code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet
+has successfully been transfered
+to the host.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1059,7 +1093,7 @@ issues a USB Device Reset condition.</p>
 <tbody>
 <tr class="row-even"><td><p>[6:0]</p></td>
 <td><p>ADDR</p></td>
-<td><p>Write the USB address from USB <cite>SET_ADDRESS</cite> packets.</p></td>
+<td><p>Write the USB address from USB <code class="docutils literal notranslate"><span class="pre">SET_ADDRESS</span></code> packets.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1101,6 +1135,11 @@ issues a USB Device Reset condition.</p>
 <li class="toctree-l1"><a class="reference internal" href="touch.html">TOUCH</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">USB</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usb-device-tri-fifo">USB Device Tri-FIFO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interrupt-and-bulk-transfers">Interrupt and Bulk Transfers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#in-transfers">IN Transfers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#out-transfers">OUT Transfers</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#control-transfers">Control Transfers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#stalling-an-endpoint">Stalling an Endpoint</a></li>
 </ul>

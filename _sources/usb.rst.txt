@@ -14,6 +14,54 @@ other types of transfers.  It contains special logic for handing control transfe
 including the handshake that is required.
 
 
+Interrupt and Bulk Transfers
+----------------------------
+
+Interrupt and bulk transfers are similar from an implementation standpoint --
+they differ only in terms of how often they are transmitted.
+
+These transfers can be made to any endpoint, and may even be interleaved.  However,
+due to the nature of `TriEndpointInterface` any attempt by the host to interleave
+transfers will result in a ``NAK``, and the host will retry later when the buffer
+is empty.
+
+IN Transfers
+^^^^^^^^^^^^
+
+To make an ``IN`` transfer (i.e. to send data to the host), write the data to
+``IN.DATA``.  This is a FIFO, and each write to this endpoint will advance the
+FIFO pointer automatically.  This FIFO is 64 bytes deep.  USB ``DATA`` packets
+contain a CRC16 checksum, which is automatically added to any ``IN`` transfers.
+
+`TriEndpointInterface` will continue to respond ``NAK`` until you arm the buffer.
+Do this by writing the endpoint number to ``IN.CTRL``.  This will tell the device
+that it should send the data the next time the host asks for it.
+
+Once the data has been transferred, the device will raise an interrupt and you
+can begin re-filling the buffer.
+
+To send an empty packet, avoid writing any data to ``IN.DATA`` and simply write
+the endpoint number to ``IN.CTRL``.
+
+OUT Transfers
+^^^^^^^^^^^^^
+
+To respond to an ``OUT`` transfer (i.e. to receive data from the host), set the
+``OUT.ENABLE`` bit.  This will tell the device to stop responding ``NAK`` and
+to accept any incoming data into a 66-byte FIFO.
+
+Once the host sends data, an interrupt will be raised and ``OUT.ENABLE`` will be
+set to ``0``.  This prevents any additional data from entering the FIFO while
+the device examines the data.
+
+The FIFO will contain two extra bytes, which are the two-byte CRC16 of the packet.
+You can safely discard these bytes.  Because of this, a zero-byte transfer will
+be two-bytes, and a full 64-byte transfer will be 66 bytes.
+
+To determine which endpoint the ``OUT`` packet was sent to, refer to
+``OUT_STATUS.EPNO``, which is only updated when a successful packet is received.
+
+
 Control Transfers
 -----------------
 
@@ -191,7 +239,7 @@ USB_SETUP_DATA
 
 `Address: 0xe0004800 + 0x4 = 0xe0004804`
 
-    Data from the last `SETUP` transactions.  It will be 10 bytes long, because
+    Data from the last ``SETUP`` transactions.  It will be 10 bytes long, because
     it will include the CRC16.  This is a FIFO, and the queue is advanced
     automatically.
 
@@ -205,18 +253,18 @@ USB_SETUP_DATA
         }
 
 
-+-------+------+-----------------------------+
-| Field | Name | Description                 |
-+=======+======+=============================+
-| [7:0] | DATA | The next byte of SETUP data |
-+-------+------+-----------------------------+
++-------+------+---------------------------------+
+| Field | Name | Description                     |
++=======+======+=================================+
+| [7:0] | DATA | The next byte of ``SETUP`` data |
++-------+------+---------------------------------+
 
 USB_SETUP_CTRL
 ^^^^^^^^^^^^^^
 
 `Address: 0xe0004800 + 0x8 = 0xe0004808`
 
-    Controls for managing how to handle `SETUP` transactions.
+    Controls for managing how to handle ``SETUP`` transactions.
 
     .. wavedrom::
         :caption: USB_SETUP_CTRL
@@ -231,20 +279,20 @@ USB_SETUP_CTRL
         }
 
 
-+-------+---------+------------------------------------------------------+
-| Field | Name    | Description                                          |
-+=======+=========+======================================================+
-| [1]   | HANDLED | Write a `1` here to indicate SETUP has been handled. |
-+-------+---------+------------------------------------------------------+
-| [2]   | RESET   | Write a `1` here to reset the `SETUP` handler.       |
-+-------+---------+------------------------------------------------------+
++-------+---------+--------------------------------------------------------+
+| Field | Name    | Description                                            |
++=======+=========+========================================================+
+| [1]   | HANDLED | Write a ``1`` here to indicate SETUP has been handled. |
++-------+---------+--------------------------------------------------------+
+| [2]   | RESET   | Write a ``1`` here to reset the `SETUP` handler.       |
++-------+---------+--------------------------------------------------------+
 
 USB_SETUP_STATUS
 ^^^^^^^^^^^^^^^^
 
 `Address: 0xe0004800 + 0xc = 0xe000480c`
 
-    Status about the most recent `SETUP` transactions, and the state of the FIFO.
+    Status about the most recent ``SETUP`` transactions, and the state of the FIFO.
 
     .. wavedrom::
         :caption: USB_SETUP_STATUS
@@ -263,15 +311,15 @@ USB_SETUP_STATUS
 +-------+-------+-----------------------------------------------------------+
 | Field | Name  | Description                                               |
 +=======+=======+===========================================================+
-| [0]   | HAVE  | `1` if there is data in the FIFO.                         |
+| [0]   | HAVE  | ``1`` if there is data in the FIFO.                       |
 +-------+-------+-----------------------------------------------------------+
-| [1]   | IS_IN | `1` if an IN stage was detected.                          |
+| [1]   | IS_IN | ``1`` if an IN stage was detected.                        |
 +-------+-------+-----------------------------------------------------------+
 | [5:2] | EPNO  | The destination endpoint for the most recent SETUP token. |
 +-------+-------+-----------------------------------------------------------+
-| [6]   | PEND  | `1` if there is an IRQ pending.                           |
+| [6]   | PEND  | ``1`` if there is an IRQ pending.                         |
 +-------+-------+-----------------------------------------------------------+
-| [7]   | DATA  | `1` if a DATA stage is expected.                          |
+| [7]   | DATA  | ``1`` if a DATA stage is expected.                        |
 +-------+-------+-----------------------------------------------------------+
 
 USB_SETUP_EV_STATUS
@@ -316,11 +364,13 @@ USB_SETUP_EV_PENDING
         }
 
 
-+-------+-------+----------------------------------------------------------------------------+
-| Field | Name  | Description                                                                |
-+=======+=======+============================================================================+
-| [0]   | READY | Indicates a `SETUP` packet has arrived and is waiting in the `SETUP` FIFO. |
-+-------+-------+----------------------------------------------------------------------------+
++-------+-------+--------------------------------------------------------------------------------------+
+| Field | Name  | Description                                                                          |
++=======+=======+======================================================================================+
+| [0]   | READY |                                                                                      |
+|       |       |                                             Indicates a ``SETUP`` packet has arrived |
+|       |       |                                             and is waiting in the ``SETUP`` FIFO.    |
++-------+-------+--------------------------------------------------------------------------------------+
 
 USB_SETUP_EV_ENABLE
 ^^^^^^^^^^^^^^^^^^^
@@ -351,11 +401,10 @@ USB_IN_DATA
 
 `Address: 0xe0004800 + 0x1c = 0xe000481c`
 
-    Each byte written into this register gets added to an outgoing FIFO. Any
-    bytes that are written here will be transmitted in the order in which
-    they were added.  The FIFO queue is automatically advanced with each write.
-    The FIFO queue is 64 bytes deep.  If you exceed this amount, the result is
-    undefined.
+    Each byte written into this register gets added to an outgoing FIFO. Any bytes
+    that are written here will be transmitted in the order in which they were added.
+    The FIFO queue is automatically advanced with each write. The FIFO queue is 64
+    bytes deep.  If you exceed this amount, the result is undefined.
 
     .. wavedrom::
         :caption: USB_IN_DATA
@@ -379,7 +428,7 @@ USB_IN_STATUS
 `Address: 0xe0004800 + 0x20 = 0xe0004820`
 
     Status about the IN handler.  As soon as you write to `IN_DATA`,
-    `IN_STATUS.HAVE` should go to `1`.
+    ``IN_STATUS.HAVE`` should go to ``1``.
 
     .. wavedrom::
         :caption: USB_IN_STATUS
@@ -395,23 +444,23 @@ USB_IN_STATUS
         }
 
 
-+-------+------+------------------------------------------------------------+
-| Field | Name | Description                                                |
-+=======+======+============================================================+
-| [0]   | HAVE | This value is '0' if the FIFO is empty.                    |
-+-------+------+------------------------------------------------------------+
-| [1]   | IDLE | This value is '1' if the packet has finished transmitting. |
-+-------+------+------------------------------------------------------------+
-| [6]   | PEND | `1` if there is an IRQ pending.                            |
-+-------+------+------------------------------------------------------------+
++-------+------+--------------------------------------------------------------+
+| Field | Name | Description                                                  |
++=======+======+==============================================================+
+| [0]   | HAVE | This value is ``0`` if the FIFO is empty.                    |
++-------+------+--------------------------------------------------------------+
+| [1]   | IDLE | This value is ``1`` if the packet has finished transmitting. |
++-------+------+--------------------------------------------------------------+
+| [6]   | PEND | ``1`` if there is an IRQ pending.                            |
++-------+------+--------------------------------------------------------------+
 
 USB_IN_CTRL
 ^^^^^^^^^^^
 
 `Address: 0xe0004800 + 0x24 = 0xe0004824`
 
-    Enables transmission of data in response to `IN` tokens, or resets
-    the contents of the FIFO.
+    Enables transmission of data in response to ``IN`` tokens, or resets the
+    contents of the FIFO.
 
     .. wavedrom::
         :caption: USB_IN_CTRL
@@ -431,9 +480,9 @@ USB_IN_CTRL
 +=======+=======+=====================================================================+
 | [3:0] | EP    | The endpoint number for the transaction that is queued in the FIFO. |
 +-------+-------+---------------------------------------------------------------------+
-| [4]   | STALL | Write a 1 here to stall the EP written in `EP`.                     |
+| [4]   | STALL | Write a ``1`` here to stall the EP written in ``EP``.               |
 +-------+-------+---------------------------------------------------------------------+
-| [5]   | RESET | Write a 1 here to clear the contents of the FIFO.                   |
+| [5]   | RESET | Write a ``1`` here to clear the contents of the FIFO.               |
 +-------+-------+---------------------------------------------------------------------+
 
 USB_IN_EV_STATUS
@@ -513,9 +562,9 @@ USB_OUT_DATA
 
 `Address: 0xe0004800 + 0x34 = 0xe0004834`
 
-    Data received from the host will go into a FIFO.  This register
-    reflects the contents of the top byte in that FIFO.  Reading from
-    this register advances the FIFO pointer.
+    Data received from the host will go into a FIFO.  This register reflects the
+    contents of the top byte in that FIFO.  Reading from this register advances the
+    FIFO pointer.
 
     .. wavedrom::
         :caption: USB_OUT_DATA
@@ -554,17 +603,17 @@ USB_OUT_STATUS
         }
 
 
-+-------+------+----------------------------------------------------------+
-| Field | Name | Description                                              |
-+=======+======+==========================================================+
-| [0]   | HAVE | ``1`` if there is data in the FIFO.                      |
-+-------+------+----------------------------------------------------------+
-| [1]   | IDLE | ``1`` if the packet has finished receiving.              |
-+-------+------+----------------------------------------------------------+
-| [5:2] | EPNO | The destination endpoint for the most recent OUT packet. |
-+-------+------+----------------------------------------------------------+
-| [6]   | PEND | ``1`` if there is an IRQ pending.                        |
-+-------+------+----------------------------------------------------------+
++-------+------+--------------------------------------------------------------+
+| Field | Name | Description                                                  |
++=======+======+==============================================================+
+| [0]   | HAVE | ``1`` if there is data in the FIFO.                          |
++-------+------+--------------------------------------------------------------+
+| [1]   | IDLE | ``1`` if the packet has finished receiving.                  |
++-------+------+--------------------------------------------------------------+
+| [5:2] | EPNO | The destination endpoint for the most recent ``OUT`` packet. |
++-------+------+--------------------------------------------------------------+
+| [6]   | PEND | ``1`` if there is an IRQ pending.                            |
++-------+------+--------------------------------------------------------------+
 
 USB_OUT_CTRL
 ^^^^^^^^^^^^
@@ -586,13 +635,13 @@ USB_OUT_CTRL
         }
 
 
-+-------+--------+---------------------------------------------+
-| Field | Name   | Description                                 |
-+=======+========+=============================================+
-| [1]   | ENABLE | Write a ``1`` here to enable recieving data |
-+-------+--------+---------------------------------------------+
-| [2]   | RESET  | Write a ``1`` here to reset the OUT handler |
-+-------+--------+---------------------------------------------+
++-------+--------+-------------------------------------------------+
+| Field | Name   | Description                                     |
++=======+========+=================================================+
+| [1]   | ENABLE | Write a ``1`` here to enable recieving data     |
++-------+--------+-------------------------------------------------+
+| [2]   | RESET  | Write a ``1`` here to reset the ``OUT`` handler |
++-------+--------+-------------------------------------------------+
 
 USB_OUT_STALL
 ^^^^^^^^^^^^^
@@ -663,13 +712,14 @@ USB_OUT_EV_PENDING
         }
 
 
-+-------+------+------------------------------------------------------------------------------------------------------------------+
-| Field | Name | Description                                                                                                      |
-+=======+======+==================================================================================================================+
-| [0]   | DONE | Indicates that an                                                                                                |
-|       |      |                                                                             ``OUT`` packet has successfully been |
-|       |      |                                                                             transfered to the host.              |
-+-------+------+------------------------------------------------------------------------------------------------------------------+
++-------+------+------------------------------------------------------------------------------------------+
+| Field | Name | Description                                                                              |
++=======+======+==========================================================================================+
+| [0]   | DONE |                                                                                          |
+|       |      |                                                         Indicates that an ``OUT`` packet |
+|       |      |                                                         has successfully been transfered |
+|       |      |                                                         to the host.                     |
++-------+------+------------------------------------------------------------------------------------------+
 
 USB_OUT_EV_ENABLE
 ^^^^^^^^^^^^^^^^^
@@ -715,9 +765,9 @@ USB_ADDRESS
         }
 
 
-+-------+------+-------------------------------------------------------+
-| Field | Name | Description                                           |
-+=======+======+=======================================================+
-| [6:0] | ADDR | Write the USB address from USB `SET_ADDRESS` packets. |
-+-------+------+-------------------------------------------------------+
++-------+------+---------------------------------------------------------+
+| Field | Name | Description                                             |
++=======+======+=========================================================+
+| [6:0] | ADDR | Write the USB address from USB ``SET_ADDRESS`` packets. |
++-------+------+---------------------------------------------------------+
 
