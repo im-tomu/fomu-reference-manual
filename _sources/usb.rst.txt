@@ -180,7 +180,7 @@ USB_PULLUP_OUT
 
         {
             "reg": [
-                {"name": "pullup_out",  "bits": 1},
+                {"name": "pullup_out", "bits": 1},
                 {"bits": 7},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
@@ -535,7 +535,7 @@ USB_OUT_STATUS
         {
             "reg": [
                 {"name": "have",  "bits": 1},
-                {"name": "idle",  "bits": 1},
+                {"name": "idle",  "attr": '1', "bits": 1},
                 {"name": "epno",  "bits": 4},
                 {"name": "pend",  "bits": 1},
                 {"bits": 1}

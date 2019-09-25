@@ -87,7 +87,7 @@ TIMER0_LOAD3
 
         {
             "reg": [
-                {"name": "load[31:24]",  "bits": 8}
+                {"name": "load[31:24]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -104,7 +104,7 @@ TIMER0_LOAD2
 
         {
             "reg": [
-                {"name": "load[23:16]",  "bits": 8}
+                {"name": "load[23:16]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -121,7 +121,7 @@ TIMER0_LOAD1
 
         {
             "reg": [
-                {"name": "load[15:8]",  "bits": 8}
+                {"name": "load[15:8]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -138,7 +138,7 @@ TIMER0_LOAD0
 
         {
             "reg": [
-                {"name": "load[7:0]",  "bits": 8}
+                {"name": "load[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -155,7 +155,7 @@ TIMER0_RELOAD3
 
         {
             "reg": [
-                {"name": "reload[31:24]",  "bits": 8}
+                {"name": "reload[31:24]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -172,7 +172,7 @@ TIMER0_RELOAD2
 
         {
             "reg": [
-                {"name": "reload[23:16]",  "bits": 8}
+                {"name": "reload[23:16]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -189,7 +189,7 @@ TIMER0_RELOAD1
 
         {
             "reg": [
-                {"name": "reload[15:8]",  "bits": 8}
+                {"name": "reload[15:8]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -206,7 +206,7 @@ TIMER0_RELOAD0
 
         {
             "reg": [
-                {"name": "reload[7:0]",  "bits": 8}
+                {"name": "reload[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -223,7 +223,7 @@ TIMER0_EN
 
         {
             "reg": [
-                {"name": "en",  "bits": 1},
+                {"name": "en", "bits": 1},
                 {"bits": 7},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
@@ -241,7 +241,7 @@ TIMER0_UPDATE_VALUE
 
         {
             "reg": [
-                {"name": "update_value",  "bits": 1},
+                {"name": "update_value", "bits": 1},
                 {"bits": 7},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
@@ -259,7 +259,7 @@ TIMER0_VALUE3
 
         {
             "reg": [
-                {"name": "value[31:24]",  "bits": 8}
+                {"name": "value[31:24]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -276,7 +276,7 @@ TIMER0_VALUE2
 
         {
             "reg": [
-                {"name": "value[23:16]",  "bits": 8}
+                {"name": "value[23:16]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -293,7 +293,7 @@ TIMER0_VALUE1
 
         {
             "reg": [
-                {"name": "value[15:8]",  "bits": 8}
+                {"name": "value[15:8]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -310,7 +310,7 @@ TIMER0_VALUE0
 
         {
             "reg": [
-                {"name": "value[7:0]",  "bits": 8}
+                {"name": "value[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 

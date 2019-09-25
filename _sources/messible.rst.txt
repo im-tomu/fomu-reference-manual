@@ -48,7 +48,7 @@ MESSIBLE_IN
 
         {
             "reg": [
-                {"name": "in[7:0]",  "bits": 8}
+                {"name": "in[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -65,7 +65,7 @@ MESSIBLE_OUT
 
         {
             "reg": [
-                {"name": "out[7:0]",  "bits": 8}
+                {"name": "out[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 

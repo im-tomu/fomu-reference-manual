@@ -56,7 +56,7 @@ REBOOT_ADDR3
 
         {
             "reg": [
-                {"name": "addr[31:24]",  "bits": 8}
+                {"name": "addr[31:24]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -73,7 +73,7 @@ REBOOT_ADDR2
 
         {
             "reg": [
-                {"name": "addr[23:16]",  "bits": 8}
+                {"name": "addr[23:16]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -90,7 +90,7 @@ REBOOT_ADDR1
 
         {
             "reg": [
-                {"name": "addr[15:8]",  "bits": 8}
+                {"name": "addr[15:8]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -107,7 +107,7 @@ REBOOT_ADDR0
 
         {
             "reg": [
-                {"name": "addr[7:0]",  "bits": 8}
+                {"name": "addr[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 

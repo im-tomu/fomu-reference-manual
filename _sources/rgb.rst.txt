@@ -28,7 +28,7 @@ RGB_DAT
 
         {
             "reg": [
-                {"name": "dat[7:0]",  "bits": 8}
+                {"name": "dat[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -45,7 +45,7 @@ RGB_ADDR
 
         {
             "reg": [
-                {"name": "addr[3:0]",  "bits": 4},
+                {"name": "addr[3:0]", "bits": 4},
                 {"bits": 4},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }

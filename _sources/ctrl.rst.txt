@@ -37,7 +37,7 @@ CTRL_RESET
 
         {
             "reg": [
-                {"name": "reset",  "bits": 1},
+                {"name": "reset", "bits": 1},
                 {"bits": 7},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
@@ -55,7 +55,7 @@ CTRL_SCRATCH3
 
         {
             "reg": [
-                {"name": "scratch[31:24]",  "bits": 8}
+                {"name": "scratch[31:24]", "attr": 'reset: 18', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -72,7 +72,7 @@ CTRL_SCRATCH2
 
         {
             "reg": [
-                {"name": "scratch[23:16]",  "bits": 8}
+                {"name": "scratch[23:16]", "attr": 'reset: 52', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -89,7 +89,7 @@ CTRL_SCRATCH1
 
         {
             "reg": [
-                {"name": "scratch[15:8]",  "bits": 8}
+                {"name": "scratch[15:8]", "attr": 'reset: 86', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -106,7 +106,7 @@ CTRL_SCRATCH0
 
         {
             "reg": [
-                {"name": "scratch[7:0]",  "bits": 8}
+                {"name": "scratch[7:0]", "attr": 'reset: 120', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -123,7 +123,7 @@ CTRL_BUS_ERRORS3
 
         {
             "reg": [
-                {"name": "bus_errors[31:24]",  "bits": 8}
+                {"name": "bus_errors[31:24]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -140,7 +140,7 @@ CTRL_BUS_ERRORS2
 
         {
             "reg": [
-                {"name": "bus_errors[23:16]",  "bits": 8}
+                {"name": "bus_errors[23:16]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -157,7 +157,7 @@ CTRL_BUS_ERRORS1
 
         {
             "reg": [
-                {"name": "bus_errors[15:8]",  "bits": 8}
+                {"name": "bus_errors[15:8]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -174,7 +174,7 @@ CTRL_BUS_ERRORS0
 
         {
             "reg": [
-                {"name": "bus_errors[7:0]",  "bits": 8}
+                {"name": "bus_errors[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
