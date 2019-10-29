@@ -23,9 +23,10 @@ REBOOT_CTRL
 
 `Address: 0xe0006000 + 0x0 = 0xe0006000`
 
-    Support rebooting the FPGA.  You can select which of the four images to reboot
-    to, just be sure to OR the image number with 0xac.  For example, to reboot to
-    the bootloader (image 0), write `0xac` to this register.
+    Provides support for rebooting the FPGA.  You can select which of the four
+    images to reboot to, just be sure to OR the image number with ``0xac``.  For
+    example, to reboot to the bootloader (image 0), write ``0xac``` to this
+    register.
 
     .. wavedrom::
         :caption: REBOOT_CTRL
@@ -38,25 +39,26 @@ REBOOT_CTRL
         }
 
 
-+-------+-------+------------------------------------------------------------------------------+
-| Field | Name  | Description                                                                  |
-+=======+=======+==============================================================================+
-| [1:0] | IMAGE | Which image to reboot to.  `SB_WARMBOOT` supports four images that are       |
-|       |       | configured at startup.  The bootloader is image 0, so set these bits to 0 to |
-|       |       | reboot back into the bootloader.                                             |
-+-------+-------+------------------------------------------------------------------------------+
-| [7:2] | KEY   | A reboot key used to prevent accidental reboots.  Set this to 0b101011.      |
-+-------+-------+------------------------------------------------------------------------------+
++-------+-------+---------------------------------------------------------------------------------+
+| Field | Name  | Description                                                                     |
++=======+=======+=================================================================================+
+| [1:0] | IMAGE | Which image to reboot to.  ``SB_WARMBOOT`` supports four images that are        |
+|       |       | configured at FPGA startup.  The bootloader is image 0, so set these bits to 0  |
+|       |       | to reboot back into the bootloader.                                             |
++-------+-------+---------------------------------------------------------------------------------+
+| [7:2] | KEY   | A reboot key used to prevent accidental reboots when writing to random areas of |
+|       |       | memory.  To initiate a reboot, set this to ``0b101011``.                        |
++-------+-------+---------------------------------------------------------------------------------+
 
 REBOOT_ADDR3
 ^^^^^^^^^^^^
 
 `Address: 0xe0006000 + 0x4 = 0xe0006004`
 
-    Bits 24-31 of `REBOOT_ADDR`. This sets the reset vector for the VexRiscv.
-    This address will be used whenever the CPU is reset, for example
-    through a debug bridge.  You should update this address whenever
-    you load a new program, to enable the debugger to run `mon reset`
+    Bits 24-31 of `REBOOT_ADDR`. This sets the reset vector for the VexRiscv.  This
+    address will be used whenever the CPU is reset, for example through a debug
+    bridge.  You should update this address whenever you load a new program, to
+    enable the debugger to run ``mon reset``
 
     .. wavedrom::
         :caption: REBOOT_ADDR3

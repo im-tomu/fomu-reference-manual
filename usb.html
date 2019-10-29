@@ -124,62 +124,6 @@ the next <code class="docutils literal notranslate"><span class="pre">IN</span><
 the <code class="docutils literal notranslate"><span class="pre">IN</span></code> FIFO.</p>
 </div>
 </div>
-<div class="section" id="usb-wishbone-bridge">
-<h2>USB Wishbone Bridge<a class="headerlink" href="#usb-wishbone-bridge" title="Permalink to this headline">¶</a></h2>
-<p>This bridge provides a transparent bridge to the target device’s Wishbone bus over USB.
-It can operate without interfering with the device’s USB stack.  It is simple enough to
-be able to work even if the USB stack is not enumerated, though the host may not cooperate.</p>
-</div>
-<div class="section" id="usb-wishbone-debug-protocol">
-<h2>USB Wishbone Debug Protocol<a class="headerlink" href="#usb-wishbone-debug-protocol" title="Permalink to this headline">¶</a></h2>
-<p>The protocol transfers four bytes a time in big-endian (i.e. USB) order.  It uses SETUP packets
-with the special type (0x43) as an <cite>attention</cite> word.  This is then followed by an <code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet.</p>
-<blockquote>
-<div>
-<div style="overflow-x:auto">
-<script type="WaveDrom">
-{ "signal": [
-    ["Request",
-        {  "name": 'data',        "wave": 'x222...22x', "data": '0x43 0x00 [ADDRESS] 0x04 0x00'   },
-        {  "name": 'data bits',   "wave": 'xxx2222xxx', "data": '7:0 15:8 23:16 31:24'},
-        {  "name": 'usb meaning', "wave": 'x222.2.2.x', "data": 'bReq bTyp wValue wIndex wLength' },
-        {  "name": 'usb byte',    "wave": 'x22222222x', "data": '1 2 3 4 5 6 7 8'                 }
-    ],
-    {},
-    ["Payload",
-        {  "name": 'data',        "wave": 'x3...x', "data": '[DATA]'},
-        {  "name": 'data bits',   "wave": 'x3333x', "data": '7:0 15:8 23:16 31:24'},
-        {  "name": 'usb meaning', "wave": 'x3...x', "data": 'OUT'  },
-        {  "name": 'usb byte',    "wave": 'x3333x', "data": '1 2 3 4'}
-    ]
-]}
-</script>
-</div>
-</div></blockquote>
-<p>To read data from the device, set the top bit of the <cite>bRequestType</cite>, followed by an <code class="docutils literal notranslate"><span class="pre">IN</span></code> packet.</p>
-<blockquote>
-<div>
-<div style="overflow-x:auto">
-<script type="WaveDrom">
-{ "signal": [
-    ['Request',
-        {  "name": 'data',        "wave": 'x222...22x', "data": '0xC3 0x00 [ADDRESS] 0x04 0x00'   },
-        {  "name": 'data bits',   "wave": 'xxx2222xxx', "data": '7:0 15:8 23:16 31:24'},
-        {  "name": 'usb meaning', "wave": 'x222.2.2.x', "data": 'bReq bTyp wValue wIndex wLength' },
-        {  "name": 'usb byte',    "wave": 'x22222222x', "data": '1 2 3 4 5 6 7 8'                 }
-    ],
-    {},
-    ["Payload",
-        {  "name": 'data',        "wave": 'x5...x', "data": '[DATA]'},
-        {  "name": 'data bits',   "wave": 'x5555x', "data": '7:0 15:8 23:16 31:24'},
-        {  "name": 'usb meaning', "wave": 'x5...x', "data": 'IN'  },
-        {  "name": 'usb byte',    "wave": 'x5555x', "data": '1 2 3 4'}
-    ]
-]}
-</script>
-</div>
-</div></blockquote>
-</div>
 <div class="section" id="register-listing-for-usb">
 <h2>Register Listing for USB<a class="headerlink" href="#register-listing-for-usb" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-default">
@@ -217,11 +161,11 @@ with the special type (0x43) as an <cite>attention</cite> word.  This is then fo
 <tr class="row-odd"><td><p><a class="reference internal" href="#usb-in-data"><span class="std std-ref">USB_IN_DATA</span></a></p></td>
 <td><p><a class="reference internal" href="#usb-in-data"><span class="std std-ref">0xe000481c</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#usb-in-status"><span class="std std-ref">USB_IN_STATUS</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-in-status"><span class="std std-ref">0xe0004820</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#usb-in-ctrl"><span class="std std-ref">USB_IN_CTRL</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-in-ctrl"><span class="std std-ref">0xe0004820</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#usb-in-ctrl"><span class="std std-ref">USB_IN_CTRL</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-in-ctrl"><span class="std std-ref">0xe0004824</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#usb-in-status"><span class="std std-ref">USB_IN_STATUS</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-in-status"><span class="std std-ref">0xe0004824</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#usb-in-ev-status"><span class="std std-ref">USB_IN_EV_STATUS</span></a></p></td>
 <td><p><a class="reference internal" href="#usb-in-ev-status"><span class="std std-ref">0xe0004828</span></a></p></td>
@@ -235,26 +179,23 @@ with the special type (0x43) as an <cite>attention</cite> word.  This is then fo
 <tr class="row-odd"><td><p><a class="reference internal" href="#usb-out-data"><span class="std std-ref">USB_OUT_DATA</span></a></p></td>
 <td><p><a class="reference internal" href="#usb-out-data"><span class="std std-ref">0xe0004834</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#usb-out-status"><span class="std std-ref">USB_OUT_STATUS</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-out-status"><span class="std std-ref">0xe0004838</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#usb-out-ctrl"><span class="std std-ref">USB_OUT_CTRL</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-out-ctrl"><span class="std std-ref">0xe0004838</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#usb-out-ctrl"><span class="std std-ref">USB_OUT_CTRL</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-out-ctrl"><span class="std std-ref">0xe000483c</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#usb-out-status"><span class="std std-ref">USB_OUT_STATUS</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-out-status"><span class="std std-ref">0xe000483c</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#usb-out-stall"><span class="std std-ref">USB_OUT_STALL</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-out-stall"><span class="std std-ref">0xe0004840</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#usb-out-ev-status"><span class="std std-ref">USB_OUT_EV_STATUS</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-out-ev-status"><span class="std std-ref">0xe0004840</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#usb-out-ev-status"><span class="std std-ref">USB_OUT_EV_STATUS</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-out-ev-status"><span class="std std-ref">0xe0004844</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#usb-out-ev-pending"><span class="std std-ref">USB_OUT_EV_PENDING</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-out-ev-pending"><span class="std std-ref">0xe0004844</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#usb-out-ev-pending"><span class="std std-ref">USB_OUT_EV_PENDING</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-out-ev-pending"><span class="std std-ref">0xe0004848</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#usb-out-ev-enable"><span class="std std-ref">USB_OUT_EV_ENABLE</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-out-ev-enable"><span class="std std-ref">0xe0004848</span></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#usb-out-ev-enable"><span class="std std-ref">USB_OUT_EV_ENABLE</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-out-ev-enable"><span class="std std-ref">0xe000484c</span></a></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#usb-address"><span class="std std-ref">USB_ADDRESS</span></a></p></td>
-<td><p><a class="reference internal" href="#usb-address"><span class="std std-ref">0xe0004850</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#usb-address"><span class="std std-ref">USB_ADDRESS</span></a></p></td>
+<td><p><a class="reference internal" href="#usb-address"><span class="std std-ref">0xe000484c</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -324,9 +265,10 @@ automatically.</p>
 {
     "reg": [
         {"bits": 1},
-        {"name": "handled",  "type": 4, "bits": 1},
+        {"name": "ack",  "type": 4, "bits": 1},
+        {"bits": 3},
         {"name": "reset",  "type": 4, "bits": 1},
-        {"bits": 5}
+        {"bits": 2}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -335,8 +277,8 @@ automatically.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 10%" />
-<col style="width: 13%" />
-<col style="width: 78%" />
+<col style="width: 10%" />
+<col style="width: 80%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -346,10 +288,10 @@ automatically.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>[1]</p></td>
-<td><p>HANDLED</p></td>
+<td><p>ACK</p></td>
 <td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to indicate SETUP has been handled.</p></td>
 </tr>
-<tr class="row-odd"><td><p>[2]</p></td>
+<tr class="row-odd"><td><p>[5]</p></td>
 <td><p>RESET</p></td>
 <td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to reset the <cite>SETUP</cite> handler.</p></td>
 </tr>
@@ -366,10 +308,10 @@ automatically.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "have",  "bits": 1},
-        {"name": "is_in",  "bits": 1},
         {"name": "epno",  "bits": 4},
+        {"name": "have",  "bits": 1},
         {"name": "pend",  "bits": 1},
+        {"name": "is_in",  "bits": 1},
         {"name": "data",  "bits": 1}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
@@ -389,21 +331,21 @@ automatically.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>[0]</p></td>
-<td><p>HAVE</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is data in the FIFO.</p></td>
-</tr>
-<tr class="row-odd"><td><p>[1]</p></td>
-<td><p>IS_IN</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if an IN stage was detected.</p></td>
-</tr>
-<tr class="row-even"><td><p>[5:2]</p></td>
+<tr class="row-even"><td><p>[3:0]</p></td>
 <td><p>EPNO</p></td>
 <td><p>The destination endpoint for the most recent SETUP token.</p></td>
 </tr>
-<tr class="row-odd"><td><p>[6]</p></td>
+<tr class="row-odd"><td><p>[4]</p></td>
+<td><p>HAVE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is data in the FIFO.</p></td>
+</tr>
+<tr class="row-even"><td><p>[5]</p></td>
 <td><p>PEND</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is an IRQ pending.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[6]</p></td>
+<td><p>IS_IN</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if an IN stage was detected.</p></td>
 </tr>
 <tr class="row-even"><td><p>[7]</p></td>
 <td><p>DATA</p></td>
@@ -423,7 +365,8 @@ automatically.</p>
 {
     "reg": [
         {"name": "ready",  "bits": 1},
-        {"bits": 7}
+        {"name": "reset",  "bits": 1},
+        {"bits": 6}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -446,6 +389,10 @@ automatically.</p>
 <td><p>READY</p></td>
 <td><p>Level of the <cite>ready</cite> event</p></td>
 </tr>
+<tr class="row-odd"><td><p>[1]</p></td>
+<td><p>RESET</p></td>
+<td><p>Level of the <cite>reset</cite> event</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -460,7 +407,8 @@ automatically.</p>
 {
     "reg": [
         {"name": "ready",  "bits": 1},
-        {"bits": 7}
+        {"name": "reset",  "bits": 1},
+        {"bits": 6}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -468,9 +416,9 @@ automatically.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 86%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 88%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -483,6 +431,11 @@ automatically.</p>
 <td><p>READY</p></td>
 <td><p>Indicates a <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> packet has arrived
 and is waiting in the <code class="docutils literal notranslate"><span class="pre">SETUP</span></code> FIFO.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[1]</p></td>
+<td><p>RESET</p></td>
+<td><p>Indicates a USB <code class="docutils literal notranslate"><span class="pre">RESET</span></code> condition
+has occurred, and the <code class="docutils literal notranslate"><span class="pre">ADDRESS</span></code> is now <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -498,7 +451,8 @@ and is waiting in the <code class="docutils literal notranslate"><span class="pr
 {
     "reg": [
         {"name": "ready",  "bits": 1},
-        {"bits": 7}
+        {"name": "reset",  "bits": 1},
+        {"bits": 6}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -520,6 +474,10 @@ and is waiting in the <code class="docutils literal notranslate"><span class="pr
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>READY</p></td>
 <td><p>Write a <cite>1</cite> to enable the <cite>ready</cite> Event</p></td>
+</tr>
+<tr class="row-odd"><td><p>[1]</p></td>
+<td><p>RESET</p></td>
+<td><p>Write a <cite>1</cite> to enable the <cite>reset</cite> Event</p></td>
 </tr>
 </tbody>
 </table>
@@ -563,58 +521,9 @@ bytes deep.  If you exceed this amount, the result is undefined.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="usb-in-status">
-<h3>USB_IN_STATUS<a class="headerlink" href="#usb-in-status" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x20 = 0xe0004820</cite></p>
-<blockquote>
-<div><p>Status about the IN handler.  As soon as you write to <cite>IN_DATA</cite>,
-<code class="docutils literal notranslate"><span class="pre">IN_STATUS.HAVE</span></code> should go to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
-
-<div style="overflow-x:auto">
-<script type="WaveDrom">
-{
-    "reg": [
-        {"name": "have",  "bits": 1},
-        {"name": "idle",  "bits": 1},
-        {"bits": 4},
-        {"name": "pend",  "bits": 1},
-        {"bits": 1}
-    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
-}
-</script>
-</div>
-</div></blockquote>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 9%" />
-<col style="width: 8%" />
-<col style="width: 83%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Field</p></th>
-<th class="head"><p>Name</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>[0]</p></td>
-<td><p>HAVE</p></td>
-<td><p>This value is <code class="docutils literal notranslate"><span class="pre">0</span></code> if the FIFO is empty.</p></td>
-</tr>
-<tr class="row-odd"><td><p>[1]</p></td>
-<td><p>IDLE</p></td>
-<td><p>This value is <code class="docutils literal notranslate"><span class="pre">1</span></code> if the packet has finished transmitting.</p></td>
-</tr>
-<tr class="row-even"><td><p>[6]</p></td>
-<td><p>PEND</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is an IRQ pending.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <div class="section" id="usb-in-ctrl">
 <h3>USB_IN_CTRL<a class="headerlink" href="#usb-in-ctrl" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x24 = 0xe0004824</cite></p>
+<p><cite>Address: 0xe0004800 + 0x20 = 0xe0004820</cite></p>
 <blockquote>
 <div><p>Enables transmission of data in response to <code class="docutils literal notranslate"><span class="pre">IN</span></code> tokens, or resets the
 contents of the FIFO.</p>
@@ -623,7 +532,7 @@ contents of the FIFO.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "ep",  "bits": 4},
+        {"name": "epno",  "bits": 4},
         {"name": "stall",  "type": 4, "bits": 1},
         {"name": "reset",  "type": 4, "bits": 1},
         {"bits": 2}
@@ -646,7 +555,7 @@ contents of the FIFO.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>[3:0]</p></td>
-<td><p>EP</p></td>
+<td><p>EPNO</p></td>
 <td><p>The endpoint number for the transaction that is queued in the FIFO.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[4]</p></td>
@@ -656,6 +565,55 @@ contents of the FIFO.</p>
 <tr class="row-even"><td><p>[5]</p></td>
 <td><p>RESET</p></td>
 <td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to clear the contents of the FIFO.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="usb-in-status">
+<h3>USB_IN_STATUS<a class="headerlink" href="#usb-in-status" title="Permalink to this headline">¶</a></h3>
+<p><cite>Address: 0xe0004800 + 0x24 = 0xe0004824</cite></p>
+<blockquote>
+<div><p>Status about the IN handler.  As soon as you write to <cite>IN_DATA</cite>,
+<code class="docutils literal notranslate"><span class="pre">IN_STATUS.HAVE</span></code> should go to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "idle",  "bits": 1},
+        {"bits": 3},
+        {"name": "have",  "bits": 1},
+        {"name": "pend",  "bits": 1},
+        {"bits": 2}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 8%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[0]</p></td>
+<td><p>IDLE</p></td>
+<td><p>This value is <code class="docutils literal notranslate"><span class="pre">1</span></code> if the packet has finished transmitting.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[4]</p></td>
+<td><p>HAVE</p></td>
+<td><p>This value is <code class="docutils literal notranslate"><span class="pre">0</span></code> if the FIFO is empty.</p></td>
+</tr>
+<tr class="row-even"><td><p>[5]</p></td>
+<td><p>PEND</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is an IRQ pending.</p></td>
 </tr>
 </tbody>
 </table>
@@ -716,9 +674,9 @@ contents of the FIFO.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
+<col style="width: 7%" />
 <col style="width: 6%" />
-<col style="width: 5%" />
-<col style="width: 89%" />
+<col style="width: 87%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -729,7 +687,8 @@ contents of the FIFO.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>DONE</p></td>
-<td><p>Indicates that the host has successfully transfered an <cite>IN</cite> packet, and that the FIFO is now empty.</p></td>
+<td><p>Indicates that the host has successfully transferred an <code class="docutils literal notranslate"><span class="pre">IN</span></code> packet,
+and that the FIFO is now empty.</p></td>
 </tr>
 </tbody>
 </table>
@@ -809,9 +768,65 @@ FIFO pointer.</p>
 </tbody>
 </table>
 </div>
+<div class="section" id="usb-out-ctrl">
+<h3>USB_OUT_CTRL<a class="headerlink" href="#usb-out-ctrl" title="Permalink to this headline">¶</a></h3>
+<p><cite>Address: 0xe0004800 + 0x38 = 0xe0004838</cite></p>
+<blockquote>
+<div><p>Controls for receiving packet data.  To enable an endpoint, write its value to
+<code class="docutils literal notranslate"><span class="pre">epno</span></code>, with the <code class="docutils literal notranslate"><span class="pre">enable</span></code> bit set to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable an endpoint, or <code class="docutils literal notranslate"><span class="pre">0</span></code>
+to disable it. Resetting the OutHandler will set all <code class="docutils literal notranslate"><span class="pre">enable</span></code> bits to 0.</p>
+<p>Similarly, you can adjust the <code class="docutils literal notranslate"><span class="pre">STALL</span></code> state by setting or clearing the
+<code class="docutils literal notranslate"><span class="pre">stall</span></code> bit.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{
+    "reg": [
+        {"name": "epno",  "bits": 4},
+        {"name": "enable",  "bits": 1},
+        {"name": "reset",  "type": 4, "bits": 1},
+        {"name": "stall",  "bits": 1},
+        {"bits": 1}
+    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+}
+</script>
+</div>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 9%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[3:0]</p></td>
+<td><p>EPNO</p></td>
+<td><p>The endpoint number to update the <code class="docutils literal notranslate"><span class="pre">enable</span></code> and <code class="docutils literal notranslate"><span class="pre">status</span></code> bits for.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[4]</p></td>
+<td><p>ENABLE</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to enable receiving data</p></td>
+</tr>
+<tr class="row-even"><td><p>[5]</p></td>
+<td><p>RESET</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to reset the <code class="docutils literal notranslate"><span class="pre">OUT</span></code> handler</p></td>
+</tr>
+<tr class="row-odd"><td><p>[6]</p></td>
+<td><p>STALL</p></td>
+<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to stall an endpoint</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="usb-out-status">
 <h3>USB_OUT_STATUS<a class="headerlink" href="#usb-out-status" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x38 = 0xe0004838</cite></p>
+<p><cite>Address: 0xe0004800 + 0x3c = 0xe000483c</cite></p>
 <blockquote>
 <div><p>Status about the current state of the <cite>OUT</cite> endpoint.</p>
 
@@ -819,11 +834,10 @@ FIFO pointer.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "have",  "bits": 1},
-        {"name": "idle",  "attr": '1', "bits": 1},
         {"name": "epno",  "bits": 4},
+        {"name": "have",  "bits": 1},
         {"name": "pend",  "bits": 1},
-        {"bits": 1}
+        {"bits": 2}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -842,113 +856,24 @@ FIFO pointer.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>[0]</p></td>
-<td><p>HAVE</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is data in the FIFO.</p></td>
-</tr>
-<tr class="row-odd"><td><p>[1]</p></td>
-<td><p>IDLE</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the packet has finished receiving.</p></td>
-</tr>
-<tr class="row-even"><td><p>[5:2]</p></td>
+<tr class="row-even"><td><p>[3:0]</p></td>
 <td><p>EPNO</p></td>
 <td><p>The destination endpoint for the most recent <code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet.</p></td>
 </tr>
-<tr class="row-odd"><td><p>[6]</p></td>
+<tr class="row-odd"><td><p>[4]</p></td>
+<td><p>HAVE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is data in the FIFO.</p></td>
+</tr>
+<tr class="row-even"><td><p>[5]</p></td>
 <td><p>PEND</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if there is an IRQ pending.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="usb-out-ctrl">
-<h3>USB_OUT_CTRL<a class="headerlink" href="#usb-out-ctrl" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x3c = 0xe000483c</cite></p>
-<blockquote>
-<div><p>Controls for receiving packet data.</p>
-
-<div style="overflow-x:auto">
-<script type="WaveDrom">
-{
-    "reg": [
-        {"bits": 1},
-        {"name": "enable",  "bits": 1},
-        {"name": "reset",  "type": 4, "bits": 1},
-        {"bits": 5}
-    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
-}
-</script>
-</div>
-</div></blockquote>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 11%" />
-<col style="width: 13%" />
-<col style="width: 77%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Field</p></th>
-<th class="head"><p>Name</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>[1]</p></td>
-<td><p>ENABLE</p></td>
-<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to enable recieving data</p></td>
-</tr>
-<tr class="row-odd"><td><p>[2]</p></td>
-<td><p>RESET</p></td>
-<td><p>Write a <code class="docutils literal notranslate"><span class="pre">1</span></code> here to reset the <code class="docutils literal notranslate"><span class="pre">OUT</span></code> handler</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="usb-out-stall">
-<h3>USB_OUT_STALL<a class="headerlink" href="#usb-out-stall" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x40 = 0xe0004840</cite></p>
-<blockquote>
-<div><p>Enables / disables STALL for a given endpoint</p>
-
-<div style="overflow-x:auto">
-<script type="WaveDrom">
-{
-    "reg": [
-        {"name": "epno",  "bits": 4},
-        {"name": "stall",  "bits": 1},
-        {"bits": 3}
-    ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
-}
-</script>
-</div>
-</div></blockquote>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 12%" />
-<col style="width: 12%" />
-<col style="width: 76%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Field</p></th>
-<th class="head"><p>Name</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>[3:0]</p></td>
-<td><p>EPNO</p></td>
-<td><p>The endpoint to update STALL status for</p></td>
-</tr>
-<tr class="row-odd"><td><p>[4]</p></td>
-<td><p>STALL</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> to enable STALL, <code class="docutils literal notranslate"><span class="pre">0</span></code> to disable it</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <div class="section" id="usb-out-ev-status">
 <h3>USB_OUT_EV_STATUS<a class="headerlink" href="#usb-out-ev-status" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x44 = 0xe0004844</cite></p>
+<p><cite>Address: 0xe0004800 + 0x40 = 0xe0004840</cite></p>
 <blockquote>
 <div><p>This register contains the current raw level of the Event trigger.  Writes to this register have no effect.</p>
 
@@ -985,7 +910,7 @@ FIFO pointer.</p>
 </div>
 <div class="section" id="usb-out-ev-pending">
 <h3>USB_OUT_EV_PENDING<a class="headerlink" href="#usb-out-ev-pending" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x48 = 0xe0004848</cite></p>
+<p><cite>Address: 0xe0004800 + 0x44 = 0xe0004844</cite></p>
 <blockquote>
 <div><p>When an Event occurs, the corresponding bit will be set in this register.  To clear the Event, set the corresponding bit in this register.</p>
 
@@ -1002,9 +927,9 @@ FIFO pointer.</p>
 </div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 7%" />
+<col style="width: 8%" />
 <col style="width: 6%" />
-<col style="width: 87%" />
+<col style="width: 86%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -1015,8 +940,7 @@ FIFO pointer.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>DONE</p></td>
-<td><p>Indicates that an <code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet
-has successfully been transfered
+<td><p>Indicates that an <code class="docutils literal notranslate"><span class="pre">OUT</span></code> packet has successfully been transferred
 to the host.</p></td>
 </tr>
 </tbody>
@@ -1024,7 +948,7 @@ to the host.</p></td>
 </div>
 <div class="section" id="usb-out-ev-enable">
 <h3>USB_OUT_EV_ENABLE<a class="headerlink" href="#usb-out-ev-enable" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x4c = 0xe000484c</cite></p>
+<p><cite>Address: 0xe0004800 + 0x48 = 0xe0004848</cite></p>
 <blockquote>
 <div><p>This register enables the corresponding Events.  Write a <cite>0</cite> to this register to disable individual events.</p>
 
@@ -1061,7 +985,7 @@ to the host.</p></td>
 </div>
 <div class="section" id="usb-address">
 <h3>USB_ADDRESS<a class="headerlink" href="#usb-address" title="Permalink to this headline">¶</a></h3>
-<p><cite>Address: 0xe0004800 + 0x50 = 0xe0004850</cite></p>
+<p><cite>Address: 0xe0004800 + 0x4c = 0xe000484c</cite></p>
 <blockquote>
 <div><p>Sets the USB device address, in order to ignore packets
 going to other devices on the bus. This value is reset when the host
@@ -1144,8 +1068,6 @@ issues a USB Device Reset condition.</p>
 <li class="toctree-l3"><a class="reference internal" href="#stalling-an-endpoint">Stalling an Endpoint</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#usb-wishbone-bridge">USB Wishbone Bridge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#usb-wishbone-debug-protocol">USB Wishbone Debug Protocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#register-listing-for-usb">Register Listing for USB</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#usb-pullup-out">USB_PULLUP_OUT</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-setup-data">USB_SETUP_DATA</a></li>
@@ -1155,15 +1077,14 @@ issues a USB Device Reset condition.</p>
 <li class="toctree-l3"><a class="reference internal" href="#usb-setup-ev-pending">USB_SETUP_EV_PENDING</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-setup-ev-enable">USB_SETUP_EV_ENABLE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-in-data">USB_IN_DATA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#usb-in-status">USB_IN_STATUS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-in-ctrl">USB_IN_CTRL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usb-in-status">USB_IN_STATUS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-in-ev-status">USB_IN_EV_STATUS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-in-ev-pending">USB_IN_EV_PENDING</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-in-ev-enable">USB_IN_EV_ENABLE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-out-data">USB_OUT_DATA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#usb-out-status">USB_OUT_STATUS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-out-ctrl">USB_OUT_CTRL</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#usb-out-stall">USB_OUT_STALL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usb-out-status">USB_OUT_STATUS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-out-ev-status">USB_OUT_EV_STATUS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-out-ev-pending">USB_OUT_EV_PENDING</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#usb-out-ev-enable">USB_OUT_EV_ENABLE</a></li>

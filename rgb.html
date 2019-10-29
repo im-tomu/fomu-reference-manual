@@ -67,11 +67,11 @@
 <h3>RGB_DAT<a class="headerlink" href="#rgb-dat" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0006800 + 0x0 = 0xe0006800</cite></p>
 <blockquote>
-<div><p>This is the value for the <cite>SB_LEDDA_IP.DAT</cite> register.  It is
-directly written into the <cite>SB_LEDDA_IP</cite> hardware block, so you should
-refer to <a class="reference external" href="http://www.latticesemi.com/view_document?document_id=50668">http://www.latticesemi.com/view_document?document_id=50668</a>.  The
-contents of this register are written to the address specified in <cite>ADDR</cite>
-immediately upon writing this register.</p>
+<div><p>This is the value for the <code class="docutils literal notranslate"><span class="pre">SB_LEDDA_IP.DAT</span></code> register.  It is directly written
+into the <code class="docutils literal notranslate"><span class="pre">SB_LEDDA_IP</span></code> hardware block, so you should refer to
+<a class="reference external" href="http://www.latticesemi.com/view_document?document_id=50668">http://www.latticesemi.com/view_document?document_id=50668</a>. The contents of this
+register are written to the address specified in <code class="docutils literal notranslate"><span class="pre">ADDR</span></code> immediately upon
+writing this register.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -88,10 +88,10 @@ immediately upon writing this register.</p>
 <h3>RGB_ADDR<a class="headerlink" href="#rgb-addr" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0006800 + 0x4 = 0xe0006804</cite></p>
 <blockquote>
-<div><p>This register is directly connected to <cite>SB_LEDDA_IP.ADDR</cite>.
-This register controls the address that is updated whenever <cite>DAT</cite> is written.
-Writing to this register has no immediate effect – data isn’t written until
-the <cite>DAT</cite> register is written.</p>
+<div><p>This register is directly connected to <code class="docutils literal notranslate"><span class="pre">SB_LEDDA_IP.ADDR</span></code>.  This register
+controls the address that is updated whenever <code class="docutils literal notranslate"><span class="pre">DAT</span></code> is written.  Writing to
+this register has no immediate effect – data isn’t written until the <code class="docutils literal notranslate"><span class="pre">DAT</span></code>
+register is written.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -142,30 +142,33 @@ the <cite>DAT</cite> register is written.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>EXE</p></td>
-<td><p>Connected to <cite>SB_LEDDA_IP.LEDDEXE</cite>.  Set this to <cite>1</cite> to enable the fading
+<td><p>Connected to <code class="docutils literal notranslate"><span class="pre">SB_LEDDA_IP.LEDDEXE</span></code>.  Set this to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable the fading
 pattern.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[1]</p></td>
 <td><p>CURREN</p></td>
-<td><p>Connected to <cite>SB_RGBA_DRV.CURREN</cite>.  Set this to <cite>1</cite> to enable the current
+<td><p>Connected to <code class="docutils literal notranslate"><span class="pre">SB_RGBA_DRV.CURREN</span></code>.  Set this to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable the current
 source.</p></td>
 </tr>
 <tr class="row-even"><td><p>[2]</p></td>
 <td><p>RGBLEDEN</p></td>
-<td><p>Connected to <cite>SB_RGBA_DRV.RGBLEDEN</cite>.  Set this to <cite>1</cite> to enable the RGB PWM
+<td><p>Connected to <code class="docutils literal notranslate"><span class="pre">SB_RGBA_DRV.RGBLEDEN</span></code>.  Set this to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable the RGB PWM
 control logic.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[3]</p></td>
 <td><p>RRAW</p></td>
-<td><p>Set this to <cite>1</cite> to enable raw control of the red LED via the <cite>RAW.R</cite> register.</p></td>
+<td><p>Set this to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable raw control of the red LED via the <code class="docutils literal notranslate"><span class="pre">RAW.R</span></code>
+register.</p></td>
 </tr>
 <tr class="row-even"><td><p>[4]</p></td>
 <td><p>GRAW</p></td>
-<td><p>Set this to <cite>1</cite> to enable raw control of the green LED via the <cite>RAW.G</cite> register.</p></td>
+<td><p>Set this to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable raw control of the green LED via the <code class="docutils literal notranslate"><span class="pre">RAW.G</span></code>
+register.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[5]</p></td>
 <td><p>BRAW</p></td>
-<td><p>Set this to <cite>1</cite> to enable raw control of the blue LED via the <cite>RAW.B</cite> register.</p></td>
+<td><p>Set this to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable raw control of the blue LED via the <code class="docutils literal notranslate"><span class="pre">RAW.B</span></code>
+register.</p></td>
 </tr>
 </tbody>
 </table>
@@ -174,10 +177,9 @@ control logic.</p></td>
 <h3>RGB_RAW<a class="headerlink" href="#rgb-raw" title="Permalink to this headline">¶</a></h3>
 <p><cite>Address: 0xe0006800 + 0xc = 0xe000680c</cite></p>
 <blockquote>
-<div><p>Normally the hardware <cite>SB_LEDDA_IP</cite> block controls the brightness of the LED,
+<div><p>Normally the hardware <code class="docutils literal notranslate"><span class="pre">SB_LEDDA_IP</span></code> block controls the brightness of the LED,
 creating a gentle fading pattern.  However, by setting the appropriate bit in
-<cite>CTRL</cite>,                 it is possible to manually control the three individual
-LEDs.</p>
+<code class="docutils literal notranslate"><span class="pre">CTRL</span></code>, it is possible to manually control the three individual LEDs.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -195,8 +197,8 @@ LEDs.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 10%" />
-<col style="width: 9%" />
-<col style="width: 81%" />
+<col style="width: 8%" />
+<col style="width: 82%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -207,15 +209,15 @@ LEDs.</p>
 <tbody>
 <tr class="row-even"><td><p>[0]</p></td>
 <td><p>R</p></td>
-<td><p>Raw value for the red LED when <cite>CTRL.RRAW</cite> is <cite>1</cite>.</p></td>
+<td><p>Raw value for the red LED when <code class="docutils literal notranslate"><span class="pre">CTRL.RRAW</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p>[1]</p></td>
 <td><p>G</p></td>
-<td><p>Raw value for the green LED when <cite>CTRL.GRAW</cite> is <cite>1</cite>.</p></td>
+<td><p>Raw value for the green LED when <code class="docutils literal notranslate"><span class="pre">CTRL.GRAW</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p>[2]</p></td>
 <td><p>B</p></td>
-<td><p>Raw value for the blue LED when <cite>CTRL.BRAW</cite> is <cite>1</cite>.</p></td>
+<td><p>Raw value for the blue LED when <code class="docutils literal notranslate"><span class="pre">CTRL.BRAW</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></td>
 </tr>
 </tbody>
 </table>

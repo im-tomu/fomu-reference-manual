@@ -1,8 +1,9 @@
 MESSIBLE
 ========
 
+
+
 Messible: An Ansible for Messages
----------------------------------
 
 An Ansible is a system for instant communication across vast distances, from
 a small portable device to a huge terminal far away.  A Messible is a message-
@@ -41,8 +42,8 @@ MESSIBLE_IN
 
 `Address: 0xe0008000 + 0x0 = 0xe0008000`
 
-    Write half of the FIFO to send data out the Messible.         Writing to this
-    register advances the write pointer automatically.
+    Write half of the FIFO to send data out the Messible. Writing to this register
+    advances the write pointer automatically.
 
     .. wavedrom::
         :caption: MESSIBLE_IN
@@ -59,7 +60,7 @@ MESSIBLE_OUT
 
 `Address: 0xe0008000 + 0x4 = 0xe0008004`
 
-    Read half of the FIFO to receive data on the Messible.         Reading from this
+    Read half of the FIFO to receive data on the Messible. Reading from this
     register advances the read pointer automatically.
 
     .. wavedrom::
@@ -90,11 +91,11 @@ MESSIBLE_STATUS
         }
 
 
-+-------+------+--------------------------------------------+
-| Field | Name | Description                                |
-+=======+======+============================================+
-| [0]   | FULL | `0` if more data can fit into the IN FIFO. |
-+-------+------+--------------------------------------------+
-| [1]   | HAVE | `1` if data can be read from the OUT FIFO. |
-+-------+------+--------------------------------------------+
++-------+------+----------------------------------------------+
+| Field | Name | Description                                  |
++=======+======+==============================================+
+| [0]   | FULL | ``0`` if more data can fit into the IN FIFO. |
++-------+------+----------------------------------------------+
+| [1]   | HAVE | ``1`` if data can be read from the OUT FIFO. |
++-------+------+----------------------------------------------+
 

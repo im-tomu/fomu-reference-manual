@@ -1,6 +1,13 @@
 VERSION
 =======
 
+SoC Version Information
+-----------------------
+
+This block contains various information about the state of the source code
+repository when this SoC was built.
+
+
 Register Listing for VERSION
 ----------------------------
 
@@ -98,15 +105,16 @@ VERSION_GITREV3
 `Address: 0xe0007000 + 0xc = 0xe000700c`
 
     Bits 24-31 of `VERSION_GITREV`. First 32-bits of the git revision.  This
-    documentation was built from git rev 0e5e760e, so this value is 241071630, which
-    should be enough to check out the exact git version used to build this firmware.
+    documentation was built from git rev ``07edde2c``, so this value is 133029420,
+    which should be enough to check out the exact git version used to build this
+    firmware.
 
     .. wavedrom::
         :caption: VERSION_GITREV3
 
         {
             "reg": [
-                {"name": "gitrev[31:24]", "attr": 'reset: 14', "bits": 8}
+                {"name": "gitrev[31:24]", "attr": 'reset: 7', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -123,7 +131,7 @@ VERSION_GITREV2
 
         {
             "reg": [
-                {"name": "gitrev[23:16]", "attr": 'reset: 94', "bits": 8}
+                {"name": "gitrev[23:16]", "attr": 'reset: 109', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -140,7 +148,7 @@ VERSION_GITREV1
 
         {
             "reg": [
-                {"name": "gitrev[15:8]", "attr": 'reset: 118', "bits": 8}
+                {"name": "gitrev[15:8]", "attr": 'reset: 94', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -157,7 +165,7 @@ VERSION_GITREV0
 
         {
             "reg": [
-                {"name": "gitrev[7:0]", "attr": 'reset: 14', "bits": 8}
+                {"name": "gitrev[7:0]", "attr": 'reset: 44', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -168,8 +176,8 @@ VERSION_GITEXTRA1
 `Address: 0xe0007000 + 0x1c = 0xe000701c`
 
     Bits 8-9 of `VERSION_GITEXTRA`. The number of additional commits beyond the git
-    tag.  For example, if this value is `1`, then the repository this was built from
-    has one additional commit beyond the tag indicated in `MAJOR`, `MINOR`, and
+    tag.  For example, if this value is ``1``, then the repository this was built
+    from has one additional commit beyond the tag indicated in `MAJOR`, `MINOR`, and
     `REVISION`.
 
     .. wavedrom::
@@ -194,7 +202,7 @@ VERSION_GITEXTRA0
 
         {
             "reg": [
-                {"name": "gitextra[7:0]", "attr": 'reset: 50', "bits": 8}
+                {"name": "gitextra[7:0]", "attr": 'reset: 61', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -210,18 +218,18 @@ VERSION_DIRTY
 
         {
             "reg": [
-                {"name": "dirty",  "bits": 1},
+                {"name": "dirty",  "attr": '1', "bits": 1},
                 {"bits": 7}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
 
-+-------+-------+----------------------------------------------------------------------+
-| Field | Name  | Description                                                          |
-+=======+=======+======================================================================+
-| [0]   | DIRTY | Set to `1` if this device was built from a git repo with uncommitted |
-|       |       | modifications.                                                       |
-+-------+-------+----------------------------------------------------------------------+
++-------+-------+------------------------------------------------------------------------+
+| Field | Name  | Description                                                            |
++=======+=======+========================================================================+
+| [0]   | DIRTY | Set to ``1`` if this device was built from a git repo with uncommitted |
+|       |       | modifications.                                                         |
++-------+-------+------------------------------------------------------------------------+
 
 VERSION_MODEL
 ^^^^^^^^^^^^^
@@ -264,7 +272,7 @@ VERSION_SEED3
 
 `Address: 0xe0007000 + 0x2c = 0xe000702c`
 
-    Bits 24-31 of `VERSION_SEED`. 32-bit seed used for the place-and-route
+    Bits 24-31 of `VERSION_SEED`. 32-bit seed used for the place-and-route.
 
     .. wavedrom::
         :caption: VERSION_SEED3
@@ -322,7 +330,7 @@ VERSION_SEED0
 
         {
             "reg": [
-                {"name": "seed[7:0]", "attr": 'reset: 19', "bits": 8}
+                {"name": "seed[7:0]", "attr": 'reset: 5', "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
