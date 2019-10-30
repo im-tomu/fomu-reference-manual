@@ -43,16 +43,19 @@ can begin re-filling the buffer.
 To send an empty packet, avoid writing any data to ``IN.DATA`` and simply write
 the endpoint number to ``IN.CTRL``.
 
+The CRC16 will be automatically appended to the end of the transfer.
+
 OUT Transfers
 ^^^^^^^^^^^^^
 
-To respond to an ``OUT`` transfer (i.e. to receive data from the host), set the
-``OUT.ENABLE`` bit.  This will tell the device to stop responding ``NAK`` and
-to accept any incoming data into a 66-byte FIFO.
+To respond to an ``OUT`` transfer (i.e. to receive data from the host), enable
+a particular endpoint by writing to ``OUT_CTRL.EPNO`` with the ``OUT_CTRL.ENABLE``
+bit set.  This will tell the device to stop responding ``NAK`` to that particular
+endpoint and to accept any incoming data into a 66-byte FIFO.
 
-Once the host sends data, an interrupt will be raised and ``OUT.ENABLE`` will be
-set to ``0``.  This prevents any additional data from entering the FIFO while
-the device examines the data.
+Once the host sends data, an interrupt will be raised and that particular endpoint's
+``ENABLE`` will be set to ``0``.  This prevents any additional data from entering
+the FIFO while the device examines the data.
 
 The FIFO will contain two extra bytes, which are the two-byte CRC16 of the packet.
 You can safely discard these bytes.  Because of this, a zero-byte transfer will
@@ -60,6 +63,9 @@ be two-bytes, and a full 64-byte transfer will be 66 bytes.
 
 To determine which endpoint the ``OUT`` packet was sent to, refer to
 ``OUT_STATUS.EPNO``, which is only updated when a successful packet is received.
+
+You will need to re-enable the endpoint by re-setting ``OUT_CTRL.ENABLE`` after you
+have drained the FIFO.
 
 
 Control Transfers
@@ -73,11 +79,6 @@ packet.  These ``SETUP`` packets must always be acknowledged, so any such packet
 from the host will get loaded into a ``SETUP`` buffer immediately, and an interrupt
 event raised.  If, for some reason, the device hasn't drained this ``SETUP``
 buffer, the buffer will be cleared automatically.
-
-Following the ``SETUP`` phase is an ``IN`` or ``OUT`` packet.  This packet will
-be delayed by responding with ``NAK`` until the device acknowledges receipt
-of the ``SETUP`` packet.  To acknowledge receipt, set the ``SETUP_CTRL.HANDLED``
-bit.
 
 Once the ``SETUP`` packet is handled, the host will send an ``IN`` or ``OUT``
 packet.  If the host sends an ``OUT`` packet, then the ``OUT`` buffer must be
@@ -95,7 +96,7 @@ the transfer.
 When the host has finished, it will send the opposite packet type.  If it
 is making ``IN`` transfers, it will send a single ``OUT`` packet, or if it
 is making ``OUT`` transfers it will send a single ``IN`` packet.
-`TriEndpointInterface` will automatically handle this final packet.
+You must handle this transaction yourself.
 
 Stalling an Endpoint
 ^^^^^^^^^^^^^^^^^^^^
@@ -104,62 +105,71 @@ When the host sends a request that cannot be processed -- for example requesting
 a descriptor that does not exist -- the device must respond with ``STALL``.
 
 Each endpoint keeps track of its own ``STALL`` state, though a ``SETUP`` packet
-will clear the ``STALL`` state.
+will clear the ``STALL`` state for the specified endpoint (usually EP0).
 
-To set or clear the ``STALL`` bit of an endpoint, write its endpoint number
+To set or clear the ``STALL`` bit of an ``IN`` endpoint, write its endpoint number
 to ``IN_CTRL.EPNO`` with the ``IN_CTRL.STALL`` bit either set or clear.  If
 this bit is set, then the device will respond to the next ``IN`` packet from the
 host to that particular endpoint with ``STALL``.  If the bit is clear, then
 the next ``IN`` packet will be responded to with ``ACK`` and the contents of
 the ``IN`` FIFO.
 
+To stall an ``OUT`` endpoint, write to ``OUT_CTRL.EPNO`` with the ``OUT_CTRL.STALL``
+and ``OUT_CTRL.ENABLE`` bits set.  To unstall, write to ``OUT_CTRL.EPNO`` with the
+``OUT_CTRL.STALL`` bit cleared.  Note that ``OUT_CTRL.ENABLE`` must be set in order
+to transmit any packet, whether it's an ``ACK``, ``NAK``, or ``STALL``.
+
 
 Register Listing for USB
 ------------------------
 
-+----------------------------------------------------+------------------------------------------+
-| Register                                           | Address                                  |
-+====================================================+==========================================+
-| :ref:`USB_PULLUP_OUT <USB_PULLUP_OUT>`             | :ref:`0xe0004800 <USB_PULLUP_OUT>`       |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_SETUP_DATA <USB_SETUP_DATA>`             | :ref:`0xe0004804 <USB_SETUP_DATA>`       |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_SETUP_CTRL <USB_SETUP_CTRL>`             | :ref:`0xe0004808 <USB_SETUP_CTRL>`       |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_SETUP_STATUS <USB_SETUP_STATUS>`         | :ref:`0xe000480c <USB_SETUP_STATUS>`     |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_SETUP_EV_STATUS <USB_SETUP_EV_STATUS>`   | :ref:`0xe0004810 <USB_SETUP_EV_STATUS>`  |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_SETUP_EV_PENDING <USB_SETUP_EV_PENDING>` | :ref:`0xe0004814 <USB_SETUP_EV_PENDING>` |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_SETUP_EV_ENABLE <USB_SETUP_EV_ENABLE>`   | :ref:`0xe0004818 <USB_SETUP_EV_ENABLE>`  |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_IN_DATA <USB_IN_DATA>`                   | :ref:`0xe000481c <USB_IN_DATA>`          |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_IN_CTRL <USB_IN_CTRL>`                   | :ref:`0xe0004820 <USB_IN_CTRL>`          |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_IN_STATUS <USB_IN_STATUS>`               | :ref:`0xe0004824 <USB_IN_STATUS>`        |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_IN_EV_STATUS <USB_IN_EV_STATUS>`         | :ref:`0xe0004828 <USB_IN_EV_STATUS>`     |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_IN_EV_PENDING <USB_IN_EV_PENDING>`       | :ref:`0xe000482c <USB_IN_EV_PENDING>`    |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_IN_EV_ENABLE <USB_IN_EV_ENABLE>`         | :ref:`0xe0004830 <USB_IN_EV_ENABLE>`     |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_OUT_DATA <USB_OUT_DATA>`                 | :ref:`0xe0004834 <USB_OUT_DATA>`         |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_OUT_CTRL <USB_OUT_CTRL>`                 | :ref:`0xe0004838 <USB_OUT_CTRL>`         |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_OUT_STATUS <USB_OUT_STATUS>`             | :ref:`0xe000483c <USB_OUT_STATUS>`       |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_OUT_EV_STATUS <USB_OUT_EV_STATUS>`       | :ref:`0xe0004840 <USB_OUT_EV_STATUS>`    |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_OUT_EV_PENDING <USB_OUT_EV_PENDING>`     | :ref:`0xe0004844 <USB_OUT_EV_PENDING>`   |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_OUT_EV_ENABLE <USB_OUT_EV_ENABLE>`       | :ref:`0xe0004848 <USB_OUT_EV_ENABLE>`    |
-+----------------------------------------------------+------------------------------------------+
-| :ref:`USB_ADDRESS <USB_ADDRESS>`                   | :ref:`0xe000484c <USB_ADDRESS>`          |
-+----------------------------------------------------+------------------------------------------+
++------------------------------------------------------+-------------------------------------------+
+| Register                                             | Address                                   |
++======================================================+===========================================+
+| :ref:`USB_PULLUP_OUT <USB_PULLUP_OUT>`               | :ref:`0xe0004800 <USB_PULLUP_OUT>`        |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_ADDRESS <USB_ADDRESS>`                     | :ref:`0xe0004804 <USB_ADDRESS>`           |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_SETUP_DATA <USB_SETUP_DATA>`               | :ref:`0xe0004808 <USB_SETUP_DATA>`        |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_SETUP_CTRL <USB_SETUP_CTRL>`               | :ref:`0xe000480c <USB_SETUP_CTRL>`        |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_SETUP_STATUS <USB_SETUP_STATUS>`           | :ref:`0xe0004810 <USB_SETUP_STATUS>`      |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_SETUP_EV_STATUS <USB_SETUP_EV_STATUS>`     | :ref:`0xe0004814 <USB_SETUP_EV_STATUS>`   |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_SETUP_EV_PENDING <USB_SETUP_EV_PENDING>`   | :ref:`0xe0004818 <USB_SETUP_EV_PENDING>`  |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_SETUP_EV_ENABLE <USB_SETUP_EV_ENABLE>`     | :ref:`0xe000481c <USB_SETUP_EV_ENABLE>`   |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_IN_DATA <USB_IN_DATA>`                     | :ref:`0xe0004820 <USB_IN_DATA>`           |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_IN_CTRL <USB_IN_CTRL>`                     | :ref:`0xe0004824 <USB_IN_CTRL>`           |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_IN_STATUS <USB_IN_STATUS>`                 | :ref:`0xe0004828 <USB_IN_STATUS>`         |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_IN_EV_STATUS <USB_IN_EV_STATUS>`           | :ref:`0xe000482c <USB_IN_EV_STATUS>`      |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_IN_EV_PENDING <USB_IN_EV_PENDING>`         | :ref:`0xe0004830 <USB_IN_EV_PENDING>`     |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_IN_EV_ENABLE <USB_IN_EV_ENABLE>`           | :ref:`0xe0004834 <USB_IN_EV_ENABLE>`      |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_DATA <USB_OUT_DATA>`                   | :ref:`0xe0004838 <USB_OUT_DATA>`          |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_CTRL <USB_OUT_CTRL>`                   | :ref:`0xe000483c <USB_OUT_CTRL>`          |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_STATUS <USB_OUT_STATUS>`               | :ref:`0xe0004840 <USB_OUT_STATUS>`        |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_EV_STATUS <USB_OUT_EV_STATUS>`         | :ref:`0xe0004844 <USB_OUT_EV_STATUS>`     |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_EV_PENDING <USB_OUT_EV_PENDING>`       | :ref:`0xe0004848 <USB_OUT_EV_PENDING>`    |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_EV_ENABLE <USB_OUT_EV_ENABLE>`         | :ref:`0xe000484c <USB_OUT_EV_ENABLE>`     |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_ENABLE_STATUS <USB_OUT_ENABLE_STATUS>` | :ref:`0xe0004850 <USB_OUT_ENABLE_STATUS>` |
++------------------------------------------------------+-------------------------------------------+
+| :ref:`USB_OUT_STALL_STATUS <USB_OUT_STALL_STATUS>`   | :ref:`0xe0004854 <USB_OUT_STALL_STATUS>`  |
++------------------------------------------------------+-------------------------------------------+
 
 USB_PULLUP_OUT
 ^^^^^^^^^^^^^^
@@ -178,10 +188,36 @@ USB_PULLUP_OUT
         }
 
 
+USB_ADDRESS
+^^^^^^^^^^^
+
+`Address: 0xe0004800 + 0x4 = 0xe0004804`
+
+    Sets the USB device address, in order to ignore packets going to other devices
+    on the bus. This value is reset when the host issues a USB Device Reset
+    condition.
+
+    .. wavedrom::
+        :caption: USB_ADDRESS
+
+        {
+            "reg": [
+                {"name": "addr",  "bits": 7},
+                {"bits": 1}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
+
++-------+------+---------------------------------------------------------+
+| Field | Name | Description                                             |
++=======+======+=========================================================+
+| [6:0] | ADDR | Write the USB address from USB ``SET_ADDRESS`` packets. |
++-------+------+---------------------------------------------------------+
+
 USB_SETUP_DATA
 ^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x4 = 0xe0004804`
+`Address: 0xe0004800 + 0x8 = 0xe0004808`
 
     Data from the last ``SETUP`` transactions.  It will be 10 bytes long, because
     it will include the CRC16.  This is a FIFO, and the queue is advanced
@@ -206,7 +242,7 @@ USB_SETUP_DATA
 USB_SETUP_CTRL
 ^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x8 = 0xe0004808`
+`Address: 0xe0004800 + 0xc = 0xe000480c`
 
     Controls for managing how to handle ``SETUP`` transactions.
 
@@ -235,7 +271,7 @@ USB_SETUP_CTRL
 USB_SETUP_STATUS
 ^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0xc = 0xe000480c`
+`Address: 0xe0004800 + 0x10 = 0xe0004810`
 
     Status about the most recent ``SETUP`` transactions, and the state of the FIFO.
 
@@ -270,7 +306,7 @@ USB_SETUP_STATUS
 USB_SETUP_EV_STATUS
 ^^^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x10 = 0xe0004810`
+`Address: 0xe0004800 + 0x14 = 0xe0004814`
 
     This register contains the current raw level of the Event trigger.  Writes to this register have no effect.
 
@@ -297,7 +333,7 @@ USB_SETUP_EV_STATUS
 USB_SETUP_EV_PENDING
 ^^^^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x14 = 0xe0004814`
+`Address: 0xe0004800 + 0x18 = 0xe0004818`
 
     When an Event occurs, the corresponding bit will be set in this register.  To clear the Event, set the corresponding bit in this register.
 
@@ -328,7 +364,7 @@ USB_SETUP_EV_PENDING
 USB_SETUP_EV_ENABLE
 ^^^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x18 = 0xe0004818`
+`Address: 0xe0004800 + 0x1c = 0xe000481c`
 
     This register enables the corresponding Events.  Write a `0` to this register to disable individual events.
 
@@ -355,7 +391,7 @@ USB_SETUP_EV_ENABLE
 USB_IN_DATA
 ^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x1c = 0xe000481c`
+`Address: 0xe0004800 + 0x20 = 0xe0004820`
 
     Each byte written into this register gets added to an outgoing FIFO. Any bytes
     that are written here will be transmitted in the order in which they were added.
@@ -381,7 +417,7 @@ USB_IN_DATA
 USB_IN_CTRL
 ^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x20 = 0xe0004820`
+`Address: 0xe0004800 + 0x24 = 0xe0004824`
 
     Enables transmission of data in response to ``IN`` tokens, or resets the
     contents of the FIFO.
@@ -392,9 +428,10 @@ USB_IN_CTRL
         {
             "reg": [
                 {"name": "epno",  "bits": 4},
-                {"name": "stall",  "type": 4, "bits": 1},
+                {"bits": 1},
                 {"name": "reset",  "type": 4, "bits": 1},
-                {"bits": 2}
+                {"name": "stall",  "type": 4, "bits": 1},
+                {"bits": 1}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
@@ -404,15 +441,15 @@ USB_IN_CTRL
 +=======+=======+=====================================================================+
 | [3:0] | EPNO  | The endpoint number for the transaction that is queued in the FIFO. |
 +-------+-------+---------------------------------------------------------------------+
-| [4]   | STALL | Write a ``1`` here to stall the EP written in ``EP``.               |
-+-------+-------+---------------------------------------------------------------------+
 | [5]   | RESET | Write a ``1`` here to clear the contents of the FIFO.               |
++-------+-------+---------------------------------------------------------------------+
+| [6]   | STALL | Write a ``1`` here to stall the EP written in ``EP``.               |
 +-------+-------+---------------------------------------------------------------------+
 
 USB_IN_STATUS
 ^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x24 = 0xe0004824`
+`Address: 0xe0004800 + 0x28 = 0xe0004828`
 
     Status about the IN handler.  As soon as you write to `IN_DATA`,
     ``IN_STATUS.HAVE`` should go to ``1``.
@@ -444,7 +481,7 @@ USB_IN_STATUS
 USB_IN_EV_STATUS
 ^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x28 = 0xe0004828`
+`Address: 0xe0004800 + 0x2c = 0xe000482c`
 
     This register contains the current raw level of the Event trigger.  Writes to this register have no effect.
 
@@ -468,7 +505,7 @@ USB_IN_EV_STATUS
 USB_IN_EV_PENDING
 ^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x2c = 0xe000482c`
+`Address: 0xe0004800 + 0x30 = 0xe0004830`
 
     When an Event occurs, the corresponding bit will be set in this register.  To clear the Event, set the corresponding bit in this register.
 
@@ -495,7 +532,7 @@ USB_IN_EV_PENDING
 USB_IN_EV_ENABLE
 ^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x30 = 0xe0004830`
+`Address: 0xe0004800 + 0x34 = 0xe0004834`
 
     This register enables the corresponding Events.  Write a `0` to this register to disable individual events.
 
@@ -519,7 +556,7 @@ USB_IN_EV_ENABLE
 USB_OUT_DATA
 ^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x34 = 0xe0004834`
+`Address: 0xe0004800 + 0x38 = 0xe0004838`
 
     Data received from the host will go into a FIFO.  This register reflects the
     contents of the top byte in that FIFO.  Reading from this register advances the
@@ -544,7 +581,7 @@ USB_OUT_DATA
 USB_OUT_CTRL
 ^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x38 = 0xe0004838`
+`Address: 0xe0004800 + 0x3c = 0xe000483c`
 
     Controls for receiving packet data.  To enable an endpoint, write its value to
     ``epno``, with the ``enable`` bit set to ``1`` to enable an endpoint, or ``0``
@@ -582,7 +619,7 @@ USB_OUT_CTRL
 USB_OUT_STATUS
 ^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x3c = 0xe000483c`
+`Address: 0xe0004800 + 0x40 = 0xe0004840`
 
     Status about the current state of the `OUT` endpoint.
 
@@ -612,7 +649,7 @@ USB_OUT_STATUS
 USB_OUT_EV_STATUS
 ^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x40 = 0xe0004840`
+`Address: 0xe0004800 + 0x44 = 0xe0004844`
 
     This register contains the current raw level of the Event trigger.  Writes to this register have no effect.
 
@@ -636,7 +673,7 @@ USB_OUT_EV_STATUS
 USB_OUT_EV_PENDING
 ^^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x44 = 0xe0004844`
+`Address: 0xe0004800 + 0x48 = 0xe0004848`
 
     When an Event occurs, the corresponding bit will be set in this register.  To clear the Event, set the corresponding bit in this register.
 
@@ -662,7 +699,7 @@ USB_OUT_EV_PENDING
 USB_OUT_EV_ENABLE
 ^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x48 = 0xe0004848`
+`Address: 0xe0004800 + 0x4c = 0xe000484c`
 
     This register enables the corresponding Events.  Write a `0` to this register to disable individual events.
 
@@ -683,29 +720,35 @@ USB_OUT_EV_ENABLE
 | [0]   | DONE | Write a `1` to enable the `done` Event |
 +-------+------+----------------------------------------+
 
-USB_ADDRESS
-^^^^^^^^^^^
+USB_OUT_ENABLE_STATUS
+^^^^^^^^^^^^^^^^^^^^^
 
-`Address: 0xe0004800 + 0x4c = 0xe000484c`
+`Address: 0xe0004800 + 0x50 = 0xe0004850`
 
-    Sets the USB device address, in order to ignore packets
-    going to other devices on the bus. This value is reset when the host
-    issues a USB Device Reset condition.
 
     .. wavedrom::
-        :caption: USB_ADDRESS
+        :caption: USB_OUT_ENABLE_STATUS
 
         {
             "reg": [
-                {"name": "addr",  "bits": 7},
-                {"bits": 1}
+                {"name": "out_enable_status[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
 
-+-------+------+---------------------------------------------------------+
-| Field | Name | Description                                             |
-+=======+======+=========================================================+
-| [6:0] | ADDR | Write the USB address from USB ``SET_ADDRESS`` packets. |
-+-------+------+---------------------------------------------------------+
+USB_OUT_STALL_STATUS
+^^^^^^^^^^^^^^^^^^^^
+
+`Address: 0xe0004800 + 0x54 = 0xe0004854`
+
+
+    .. wavedrom::
+        :caption: USB_OUT_STALL_STATUS
+
+        {
+            "reg": [
+                {"name": "out_stall_status[7:0]", "bits": 8}
+            ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
+        }
+
 
