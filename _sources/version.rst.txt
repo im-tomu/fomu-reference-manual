@@ -330,7 +330,7 @@ VERSION_SEED0
 
         {
             "reg": [
-                {"name": "seed[7:0]", "attr": 'reset: 5', "bits": 8}
+                {"name": "seed[7:0]", "bits": 8}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 

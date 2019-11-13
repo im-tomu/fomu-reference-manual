@@ -6,7 +6,6 @@ Documentation for Fomu Bootloader
     :hidden:
 
     interrupts
-    spibone
     ctrl
     lxspi
     messible
@@ -21,7 +20,6 @@ Modules
 =======
 
 * :doc:`INTERRUPTS <interrupts>`
-* :doc:`SPIBONE <spibone>`
 
 Register Groups
 ===============

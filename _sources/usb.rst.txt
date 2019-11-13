@@ -115,9 +115,63 @@ the next ``IN`` packet will be responded to with ``ACK`` and the contents of
 the ``IN`` FIFO.
 
 To stall an ``OUT`` endpoint, write to ``OUT_CTRL.EPNO`` with the ``OUT_CTRL.STALL``
-and ``OUT_CTRL.ENABLE`` bits set.  To unstall, write to ``OUT_CTRL.EPNO`` with the
-``OUT_CTRL.STALL`` bit cleared.  Note that ``OUT_CTRL.ENABLE`` must be set in order
-to transmit any packet, whether it's an ``ACK``, ``NAK``, or ``STALL``.
+bit set.  To unstall, write to ``OUT_CTRL.EPNO`` with the ``OUT_CTRL.STALL`` bit
+cleared.  Note that ``OUT_CTRL.ENABLE`` should not be set at the same time as
+``OUT_CTRL.STALL``, as this will cause a conflict.
+
+
+USB Wishbone Bridge
+-------------------
+
+This bridge provides a transparent bridge to the target device's Wishbone bus over USB.
+It can operate without interfering with the device's USB stack.  It is simple enough to
+be able to work even if the USB stack is not enumerated, though the host may not cooperate.
+
+USB Wishbone Debug Protocol
+---------------------------
+
+The protocol transfers four bytes a time in big-endian (i.e. USB) order.  It uses SETUP packets
+with the special type (0x43) as an `attention` word.  This is then followed by an ``OUT`` packet.
+
+    .. wavedrom::
+        :caption: Write to Wishbone
+
+        { "signal": [
+            ["Request",
+                {  "name": 'data',        "wave": 'x222...22x', "data": '0x43 0x00 [ADDRESS] 0x04 0x00'   },
+                {  "name": 'data bits',   "wave": 'xxx2222xxx', "data": '7:0 15:8 23:16 31:24'},
+                {  "name": 'usb meaning', "wave": 'x222.2.2.x', "data": 'bReq bTyp wValue wIndex wLength' },
+                {  "name": 'usb byte',    "wave": 'x22222222x', "data": '1 2 3 4 5 6 7 8'                 }
+            ],
+            {},
+            ["Payload",
+                {  "name": 'data',        "wave": 'x3...x', "data": '[DATA]'},
+                {  "name": 'data bits',   "wave": 'x3333x', "data": '7:0 15:8 23:16 31:24'},
+                {  "name": 'usb meaning', "wave": 'x3...x', "data": 'OUT'  },
+                {  "name": 'usb byte',    "wave": 'x3333x', "data": '1 2 3 4'}
+            ]
+        ]}
+
+To read data from the device, set the top bit of the `bRequestType`, followed by an ``IN`` packet.
+
+    .. wavedrom::
+        :caption: Read from Wishbone
+
+        { "signal": [
+            ['Request',
+                {  "name": 'data',        "wave": 'x222...22x', "data": '0xC3 0x00 [ADDRESS] 0x04 0x00'   },
+                {  "name": 'data bits',   "wave": 'xxx2222xxx', "data": '7:0 15:8 23:16 31:24'},
+                {  "name": 'usb meaning', "wave": 'x222.2.2.x', "data": 'bReq bTyp wValue wIndex wLength' },
+                {  "name": 'usb byte',    "wave": 'x22222222x', "data": '1 2 3 4 5 6 7 8'                 }
+            ],
+            {},
+            ["Payload",
+                {  "name": 'data',        "wave": 'x5...x', "data": '[DATA]'},
+                {  "name": 'data bits',   "wave": 'x5555x', "data": '7:0 15:8 23:16 31:24'},
+                {  "name": 'usb meaning', "wave": 'x5...x', "data": 'IN'  },
+                {  "name": 'usb byte',    "wave": 'x5555x', "data": '1 2 3 4'}
+            ]
+        ]}
 
 
 Register Listing for USB
@@ -289,22 +343,18 @@ USB_SETUP_CTRL
 
         {
             "reg": [
-                {"bits": 1},
-                {"name": "ack",  "type": 4, "bits": 1},
-                {"bits": 3},
+                {"bits": 5},
                 {"name": "reset",  "type": 4, "bits": 1},
                 {"bits": 2}
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
 
-+-------+-------+--------------------------------------------------------+
-| Field | Name  | Description                                            |
-+=======+=======+========================================================+
-| [1]   | ACK   | Write a ``1`` here to indicate SETUP has been handled. |
-+-------+-------+--------------------------------------------------------+
-| [5]   | RESET | Write a ``1`` here to reset the `SETUP` handler.       |
-+-------+-------+--------------------------------------------------------+
++-------+-------+--------------------------------------------------+
+| Field | Name  | Description                                      |
++=======+=======+==================================================+
+| [5]   | RESET | Write a ``1`` here to reset the `SETUP` handler. |
++-------+-------+--------------------------------------------------+
 
 USB_SETUP_STATUS
 ^^^^^^^^^^^^^^^^
