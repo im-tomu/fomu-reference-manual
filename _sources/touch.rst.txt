@@ -19,67 +19,52 @@ TOUCH_O
 
 `Address: 0xe0005800 + 0x0 = 0xe0005800`
 
+    Output values for pads 1-4
 
     .. wavedrom::
         :caption: TOUCH_O
 
         {
             "reg": [
-                {"name": "o",  "bits": 4},
-                {"bits": 4}
+                {"name": "o[3:0]", "bits": 4},
+                {"bits": 4},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
-
-+-------+------+----------------------------+
-| Field | Name | Description                |
-+=======+======+============================+
-| [3:0] | O    | Output values for pads 1-4 |
-+-------+------+----------------------------+
 
 TOUCH_OE
 ^^^^^^^^
 
 `Address: 0xe0005800 + 0x4 = 0xe0005804`
 
+    Output enable control for pads 1-4
 
     .. wavedrom::
         :caption: TOUCH_OE
 
         {
             "reg": [
-                {"name": "oe",  "bits": 4},
-                {"bits": 4}
+                {"name": "oe[3:0]", "bits": 4},
+                {"bits": 4},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
-
-+-------+------+------------------------------------+
-| Field | Name | Description                        |
-+=======+======+====================================+
-| [3:0] | OE   | Output enable control for pads 1-4 |
-+-------+------+------------------------------------+
 
 TOUCH_I
 ^^^^^^^
 
 `Address: 0xe0005800 + 0x8 = 0xe0005808`
 
+    Input value for pads 1-4
 
     .. wavedrom::
         :caption: TOUCH_I
 
         {
             "reg": [
-                {"name": "i",  "bits": 4},
-                {"bits": 4}
+                {"name": "i[3:0]", "bits": 4},
+                {"bits": 4},
             ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
         }
 
-
-+-------+------+--------------------------+
-| Field | Name | Description              |
-+=======+======+==========================+
-| [3:0] | I    | Input value for pads 1-4 |
-+-------+------+--------------------------+
 

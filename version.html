@@ -105,13 +105,13 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0x0 = 0xe0007000</cite></p>
 <blockquote>
 <div><p>Major git tag version.  For example, this firmware was built from git tag
-<code class="docutils literal notranslate"><span class="pre">v1.8.7</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">v2.0.1</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "major[7:0]", "attr": 'reset: 1', "bits": 8}
+        {"name": "major[7:0]", "attr": 'reset: 2', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -123,13 +123,13 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0x4 = 0xe0007004</cite></p>
 <blockquote>
 <div><p>Minor git tag version.  For example, this firmware was built from git tag
-<code class="docutils literal notranslate"><span class="pre">v1.8.7</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">8</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">v2.0.1</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "minor[7:0]", "attr": 'reset: 8', "bits": 8}
+        {"name": "minor[7:0]", "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -141,13 +141,13 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0x8 = 0xe0007008</cite></p>
 <blockquote>
 <div><p>Revision git tag version.  For example, this firmware was built from git tag
-<code class="docutils literal notranslate"><span class="pre">v1.8.7</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">7</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">v2.0.1</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "revision[7:0]", "attr": 'reset: 7', "bits": 8}
+        {"name": "revision[7:0]", "attr": 'reset: 1', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -159,15 +159,14 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0xc = 0xe000700c</cite></p>
 <blockquote>
 <div><p>Bits 24-31 of <cite>VERSION_GITREV</cite>. First 32-bits of the git revision.  This
-documentation was built from git rev <code class="docutils literal notranslate"><span class="pre">07edde2c</span></code>, so this value is 133029420,
-which should be enough to check out the exact git version used to build this
-firmware.</p>
+documentation was built from git rev <code class="docutils literal notranslate"><span class="pre">00000000</span></code>, so this value is 0, which
+should be enough to check out the exact git version used to build this firmware.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[31:24]", "attr": 'reset: 7', "bits": 8}
+        {"name": "gitrev[31:24]", "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -184,7 +183,7 @@ firmware.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[23:16]", "attr": 'reset: 109', "bits": 8}
+        {"name": "gitrev[23:16]", "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -201,7 +200,7 @@ firmware.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[15:8]", "attr": 'reset: 94', "bits": 8}
+        {"name": "gitrev[15:8]", "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -218,7 +217,7 @@ firmware.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[7:0]", "attr": 'reset: 44', "bits": 8}
+        {"name": "gitrev[7:0]", "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -255,7 +254,7 @@ from has one additional commit beyond the tag indicated in <cite>MAJOR</cite>, <
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitextra[7:0]", "attr": 'reset: 61', "bits": 8}
+        {"name": "gitextra[7:0]", "attr": 'reset: 1', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -308,7 +307,7 @@ modifications.</p></td>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "model",  "attr": '69', "bits": 8}
+        {"name": "model",  "attr": '80', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -424,7 +423,7 @@ modifications.</p></td>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "seed[7:0]", "bits": 8}
+        {"name": "seed[7:0]", "attr": 'reset: 3', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -525,7 +524,7 @@ modifications.</p></td>
       &copy;2019, Sean Cross.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
