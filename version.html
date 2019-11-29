@@ -105,7 +105,7 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0x0 = 0xe0007000</cite></p>
 <blockquote>
 <div><p>Major git tag version.  For example, this firmware was built from git tag
-<code class="docutils literal notranslate"><span class="pre">v2.0.2</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">v2.0.3</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -123,7 +123,7 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0x4 = 0xe0007004</cite></p>
 <blockquote>
 <div><p>Minor git tag version.  For example, this firmware was built from git tag
-<code class="docutils literal notranslate"><span class="pre">v2.0.2</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">v2.0.3</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
@@ -141,13 +141,13 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0x8 = 0xe0007008</cite></p>
 <blockquote>
 <div><p>Revision git tag version.  For example, this firmware was built from git tag
-<code class="docutils literal notranslate"><span class="pre">v2.0.2</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">v2.0.3</span></code>, so this value is <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p>
 
 <div style="overflow-x:auto">
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "revision[7:0]", "attr": 'reset: 2', "bits": 8}
+        {"name": "revision[7:0]", "attr": 'reset: 3', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -159,7 +159,7 @@ repository when this SoC was built.</p>
 <p><cite>Address: 0xe0007000 + 0xc = 0xe000700c</cite></p>
 <blockquote>
 <div><p>Bits 24-31 of <cite>VERSION_GITREV</cite>. First 32-bits of the git revision.  This
-documentation was built from git rev <code class="docutils literal notranslate"><span class="pre">c8872c10</span></code>, so this value is 3364301840,
+documentation was built from git rev <code class="docutils literal notranslate"><span class="pre">447c5dac</span></code>, so this value is 1149001132,
 which should be enough to check out the exact git version used to build this
 firmware.</p>
 
@@ -167,7 +167,7 @@ firmware.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[31:24]", "attr": 'reset: 72', "bits": 8}
+        {"name": "gitrev[31:24]", "attr": 'reset: 68', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -184,7 +184,7 @@ firmware.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[23:16]", "attr": 'reset: 7', "bits": 8}
+        {"name": "gitrev[23:16]", "attr": 'reset: 124', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -201,7 +201,7 @@ firmware.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[15:8]", "attr": 'reset: 44', "bits": 8}
+        {"name": "gitrev[15:8]", "attr": 'reset: 93', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
@@ -218,7 +218,7 @@ firmware.</p>
 <script type="WaveDrom">
 {
     "reg": [
-        {"name": "gitrev[7:0]", "attr": 'reset: 16', "bits": 8}
+        {"name": "gitrev[7:0]", "attr": 'reset: 44', "bits": 8}
     ], "config": {"hspace": 400, "bits": 8, "lanes": 1 }, "options": {"hspace": 400, "bits": 8, "lanes": 1}
 }
 </script>
